@@ -1,0 +1,97 @@
+/* Login / Signup bg */
+
+.loginbody{
+    background-image: url("../assets/bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* Primary color */
+.bg-primary{
+    background-color: #3b76f6;
+    border: none;
+}
+.bg-primary:hover{
+    background-color: #2563eb;
+}
+
+/* Primary color variants */
+.primary-50{
+    background-color: #eff4ff;
+}
+
+.primary-100{
+    background-color: #dbe6fe;
+}
+
+.primary-200{
+    background-color: #bfd3fe;
+}
+
+.primary-300{
+    background-color: #93b4fd;
+}
+.primary-300{
+    background-color: #6090fa;
+}
+
+.primary-400{
+    background-color: #6090fa;
+}
+
+.primary-500{
+    background-color: #3b76f6;
+    border: none;
+}
+
+.primary-600{
+    background-color: #2563eb;
+}
+
+.primary-700{
+    background-color: #1d58d8;
+}
+
+.primary-800{
+    background-color: #1e4baf;
+}
+
+.primary-900{
+    background-color: #172a54;
+}
+
+
+/* Secondary color variants */
+.secondary-50{
+    background-color: #FFFFFF ;
+}
+.secondary-100{
+    background-color: #efefef ;
+}
+.secondary-200{
+    background-color: #dcdcdc ;
+}
+.secondary-300{
+    background-color: #BDBDBD ;
+}
+.secondary-400{
+    background-color: #989898 ;
+}
+.secondary-500{
+    background-color: #7c7c7c ;
+}
+.secondary-600{
+    background-color: #656565 ;
+}
+.secondary-700{
+    background-color: #525252 ;
+}
+.secondary-800{
+    background-color: #464646 ;
+}
+.secondary-900{
+    background-color: #3d3d3d ;
+}
+.secondary-950{
+    background-color: #292929 ;
+}
