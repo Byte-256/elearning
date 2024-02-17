@@ -1,7 +1,7 @@
 /* Login / Signup bg */
 
 .loginbody{
-    background-image: url("../assets/bg.jpg");
+    background:linear-gradient(0deg, rgba(147, 180, 254, 0.2), rgba(147, 180, 254, 0.2)), url("../assets/bg.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -29,7 +29,7 @@
 }
 
 .primary-300{
-    background-color: #93b4fd;
+    background-color: rgb(147, 180, 253);
 }
 .primary-300{
     background-color: #6090fa;

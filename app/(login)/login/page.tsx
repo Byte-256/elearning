@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/passwordinput";
 import Link from "next/link";
 import { useState } from "react";
+import '../../colors.css';
 
 export default function Login() {
 
@@ -12,7 +13,7 @@ export default function Login() {
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 bg-white rounded-md shadow-md lg:max-w-xl">
+      <div className="w-full p-6 primary-50 rounded-3xl shadow-md lg:max-w-xl">
         <h1 className="text-3xl font-bold text-center text-gray-700">Login</h1>
         {/* Login Form */}
         
@@ -66,7 +67,7 @@ export default function Login() {
         </form>
 
         <div className="relative flex items-center justify-center w-full mt-6 border border-t">
-          <div className="absolute px-5 bg-white">Or</div>
+          <div className="absolute px-5 primary-50">Or</div>
         </div>
         <div className="flex mt-4 gap-x-2">
           <Button
