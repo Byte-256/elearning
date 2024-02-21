@@ -1,23 +1,44 @@
-'use client'
+"use client"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/passwordinput";
 import Link from "next/link";
 import { useState } from "react";
+import { auth } from "@/lib/fb.config";
 import '../../colors.css';
+import { useRouter } from "next/navigation";
+import { UserCredential, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { FirebaseError } from "firebase/app";
 
 export default function Login() {
 
   const [usrnm, setUsrnm] = useState("");
   const [pass, setPass] = useState("");
+  const router = useRouter();
+
+  function userLogin(data: FormData) {
+    
+    signInWithEmailAndPassword(auth, usrnm, pass)
+    .then((userCredential: UserCredential) => {
+      console.log(userCredential.user);
+      console.log(userCredential.user.uid);
+      console.log(userCredential.user.email);
+      router.push("/") 
+    })
+    .catch((e: FirebaseError) => {
+      console.log("There is something going unexpectedly so don't use it");
+      console.log(e.message);
+      console.error(e.code);                 
+    });
+  }
 
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
+    <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden loginbody">
       <div className="w-full p-6 primary-50 rounded-3xl shadow-md lg:max-w-xl">
         <h1 className="text-3xl font-bold text-center text-gray-700">Login</h1>
         {/* Login Form */}
         
-        <form className="mt-6" action={""}>
+        <form className="mt-6" action={userLogin}>
           {/* Email Input */}
           <div className="mb-4">
             <label
@@ -31,7 +52,7 @@ export default function Login() {
               value={usrnm}
               name="usr"
               onChange={(e) => setUsrnm(e.target.value)}
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              // className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
 
           </div>
@@ -59,8 +80,11 @@ export default function Login() {
           >
             Forget Password?
           </Link>
+          {/* Sigin in Button */}
           <div className="mt-2">
-            <Button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform rounded-md" type="submit">
+            <Button 
+              onClick={ (e)=> console.log("Form btn clicked...")}
+              className="primary-500 hover:primary-500 w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform rounded-md" type="submit">
               Sign In
             </Button>
           </div>
@@ -69,10 +93,11 @@ export default function Login() {
         <div className="relative flex items-center justify-center w-full mt-6 border border-t">
           <div className="absolute px-5 primary-50">Or</div>
         </div>
+        {/* SSO Button */}
         <div className="flex mt-4 gap-x-2">
           <Button
             type="button"
-            className="flex items-center justify-center w-full p-2 border border-gray-600 rounded-md focus:ring-2 focus:ring-offset-1"
+            className="primary-500 hover:primary-500 flex items-center justify-center w-full p-2 border rounded-md focus:ring-2 focus:ring-offset-1"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +111,7 @@ export default function Login() {
         </div>
 
         <p className="mt-4 text-sm text-center text-gray-700">
-          Not a Student?{" "}
+          Already have an account?{" "}
           <Link
             href="/signup"
             className="font-medium text-blue-600 hover:underline"

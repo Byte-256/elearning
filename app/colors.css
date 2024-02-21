@@ -1,51 +1,53 @@
 /* Login / Signup bg */
+:root {
+    --primary-500: #3b76f6;
+    --primary-50: #eff4ff;
+    --primary-100: #dbe6fe;
+    --primary-200: #bfd3fe;
+    --primary-300: #93b4fd;
+    --primary-400: #6090fa;
+    --primary-600: #2563eb       
+
+}
+
 
 .loginbody{
-    background:linear-gradient(0deg, rgba(147, 180, 254, 0.2), rgba(147, 180, 254, 0.2)), url("../assets/bg.jpg");
+    background:linear-gradient(0deg, rgba(147, 180, 254, 0.2), rgba(147, 180, 254, 0.2)), url("../assets/bg1.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }
 
-/* Primary color */
-.bg-primary{
-    background-color: #3b76f6;
-    border: none;
-}
-.bg-primary:hover{
-    background-color: #2563eb;
-}
-
 /* Primary color variants */
 .primary-50{
-    background-color: #eff4ff;
+    background-color: var(--primary-50);
 }
 
 .primary-100{
-    background-color: #dbe6fe;
+    background-color: var(--primary-100);
 }
 
 .primary-200{
-    background-color: #bfd3fe;
+    background-color: var(--primary-200);
 }
 
 .primary-300{
-    background-color: rgb(147, 180, 253);
-}
-.primary-300{
-    background-color: #6090fa;
+    background-color: var(--primary-300);
 }
 
 .primary-400{
-    background-color: #6090fa;
+    background-color: var(--primary-400);
 }
 
 .primary-500{
-    background-color: #3b76f6;
-    border: none;
+    background-color: var(--primary-500);
+    border: 2px #525255;
+}
+.hover\:primary-500:hover{
+    background-color: #6090fa;
 }
 
 .primary-600{
-    background-color: #2563eb;
+    background-color: var(--primary-600);
 }
 
 .primary-700{
