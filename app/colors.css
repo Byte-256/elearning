@@ -1,18 +1,7 @@
 /* Login / Signup bg */
-:root {
-    --primary-500: #3b76f6;
-    --primary-50: #eff4ff;
-    --primary-100: #dbe6fe;
-    --primary-200: #bfd3fe;
-    --primary-300: #93b4fd;
-    --primary-400: #6090fa;
-    --primary-600: #2563eb       
-
-}
-
 
 .loginbody{
-    background:linear-gradient(0deg, rgba(147, 180, 254, 0.2), rgba(147, 180, 254, 0.2)), url("../assets/bg1.jpg");
+    background:linear-gradient(45deg, #1d57f673, #6091fa48), url("../assets/bg1.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }
