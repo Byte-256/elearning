@@ -18,8 +18,7 @@ export const Header = ({
     <div className="w-full flex flex-col gap-y-4 items-center justify-center">
       <h1 className={cn(
         "text-3xl font-semibold",
-        font.className,
-        <img src="https://external-content.duckduckgo.com/ip3/www.isaacschools.org.ico"/>
+        font.className
       )}>
         Isaac Academy
       </h1>

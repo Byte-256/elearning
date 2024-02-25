@@ -1,4 +1,5 @@
-'use client';
+"use client";
+
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage, Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
@@ -27,7 +28,7 @@ const LoginForm = ({
     bbtnlabel, 
     bbtnhref} : LoginProps) => {
 
-      const router = useRouter();
+  const router = useRouter();
   const [error, setError] = useState<string | undefined>("");
 
 
@@ -40,7 +41,7 @@ const LoginForm = ({
         .then((userCredential) => {
           router.push("/");
         })
-        .catch((e: FirebaseError) => {
+        .catch((e) => {
           if(e.code == "auth/invalid-credential"){
             setError("Invalid Email/Password")
           }
@@ -106,7 +107,7 @@ const LoginForm = ({
                         asChild
                         className="px-0 font-normal"
                       >
-                        <Link href="/auth/reset">
+                        <Link href="/reset">
                           Forgot Password?
                         </Link>
                       </Button>

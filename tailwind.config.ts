@@ -19,6 +19,11 @@ const config = {
     },
     extend: {
       colors: {
+        lightBlue: '#A0C3FF',
+        accentYellow: '#F9C80E',
+        accentOrange: '#FFA07A',
+        neutralWhite: '#FFFFFF',
+        neutralLightGrey: '#F5F5F5',
         // primary: "#6090fa",
         // accent: "#3b76f6",
         border: "hsl(var(--border))",

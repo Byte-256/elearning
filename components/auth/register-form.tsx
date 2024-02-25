@@ -50,7 +50,7 @@ export const RegisterForm = () => {
         pending(false)
         route.push("/")
       })
-      .catch((e: FirebaseError) => {
+      .catch((e) => {
         alert(`Error: ${e.message}`);
       });
       pending(false)
@@ -63,7 +63,7 @@ export const RegisterForm = () => {
     <CardWrapper
       headerLabel="Create an account"
       backButtonLabel="Already have an account?"
-      backButtonHref="/auth/login"
+      backButtonHref="/login"
       showSocial
     >
       <Form {...form}>
