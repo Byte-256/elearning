@@ -1,7 +1,7 @@
 'use client';
 
 import { auth } from "@/lib/fb.config";
-import { User } from "firebase/auth";
+import { User, onAuthStateChanged } from "firebase/auth";
 
 import Head from 'next/head';
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ const Home = () => {
     
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    const un = auth.onAuthStateChanged((firebaseUser) => {
+   onAuthStateChanged(auth, (firebaseUser) => {
         setUser(firebaseUser);
     })
   }, [])

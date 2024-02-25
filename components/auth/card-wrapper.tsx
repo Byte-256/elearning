@@ -9,6 +9,7 @@ import {
 import { Header } from "@/components/auth/header";
 import { Social } from "@/components/auth/social";
 import { BackButton } from "@/components/auth/back-button";
+import { Dispatch, SetStateAction } from "react";
 
 interface CardWrapperProps {
   children: React.ReactNode;
@@ -16,6 +17,7 @@ interface CardWrapperProps {
   backButtonLabel: string;
   backButtonHref: string;
   showSocial?: boolean;
+  error: Dispatch<SetStateAction<string | undefined>>;
 };
 
 export const CardWrapper = ({
@@ -23,7 +25,8 @@ export const CardWrapper = ({
   headerLabel,
   backButtonLabel,
   backButtonHref,
-  showSocial
+  showSocial,
+  error
 }: CardWrapperProps) => {
   return (
     <Card className="w-[400px] shadow-md">
@@ -35,7 +38,8 @@ export const CardWrapper = ({
       </CardContent>
       {showSocial && (
         <CardFooter>
-          <Social />
+          <Social 
+          errorMsg={error}/>
         </CardFooter>
       )}
       <CardFooter>

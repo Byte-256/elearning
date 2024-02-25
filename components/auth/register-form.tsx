@@ -65,6 +65,7 @@ export const RegisterForm = () => {
       backButtonLabel="Already have an account?"
       backButtonHref="/login"
       showSocial
+      error={setError}
     >
       <Form {...form}>
         <form 
