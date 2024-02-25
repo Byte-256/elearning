@@ -1,14 +1,21 @@
 "use client";
 
 import { FcGoogle } from "react-icons/fc";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { GoogleAuthProvider, signInWithPopup } from "@firebase/auth";
+import { auth } from "@/lib/fb.config";
 
 export const Social = () => {
 
+  const router = useRouter()
+
   const onClick = () => {
-    alert("Google's Freaking SSO");
+    signInWithPopup(auth, new GoogleAuthProvider())
+    .then((credential) => {
+        router.push("/")
+    })
   }
 
   return (

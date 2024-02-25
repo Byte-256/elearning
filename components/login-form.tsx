@@ -9,11 +9,12 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PasswordInput } from "@/components/ui/passwordinput";
 import { CardWrapper } from "@/components/auth/card-wrapper";
-import { BaseSyntheticEvent } from "react";
+import { BaseSyntheticEvent, useState } from "react";
 import { user, auth } from "@/lib/fb.config";
 import { User, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { useRouter } from "next/navigation";
+import { FormError } from "./form-error";
 
 interface LoginProps {
     hlabel: string; 
@@ -27,8 +28,11 @@ const LoginForm = ({
     bbtnhref} : LoginProps) => {
 
       const router = useRouter();
+  const [error, setError] = useState<string | undefined>("");
+
 
       const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+      setError("")
       if(user){
         signOut(auth)
       }
@@ -37,7 +41,9 @@ const LoginForm = ({
           router.push("/");
         })
         .catch((e: FirebaseError) => {
-          throw new Error(`code : ${e.code}\nmessage : ${e.message}\ncause: ${e.cause}`);
+          if(e.code == "auth/invalid-credential"){
+            setError("Invalid Email/Password")
+          }
         });
     }
 
@@ -109,6 +115,7 @@ const LoginForm = ({
                   )}
                 />
           </div>
+          <FormError message={error} />
           <Button
             disabled={false}
             type="submit"
