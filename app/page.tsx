@@ -30,7 +30,7 @@ const Home = () => {
       </Head>
 
       <main className="bg-gray-100 min-h-screen">
-        <Navbar user={user} profileImg={picuri}/>
+        <Navbar />
         <Hero />
         <FeaturedCourses />
         <Footer />

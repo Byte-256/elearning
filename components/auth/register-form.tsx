@@ -13,7 +13,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,  
+  FormMessage,
 } from "@/components/ui/form";
 import { CardWrapper } from "@/components/auth/card-wrapper"
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ import { FormSuccess } from "@/components/form-success";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "@/lib/fb.config";
 import { FirebaseError } from "firebase/app";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { PasswordInput } from "../ui/passwordinput";
 
 export const RegisterForm = () => {
@@ -30,6 +30,7 @@ export const RegisterForm = () => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, pending] = useState<boolean | undefined>(false);
 
+  const router = useRouter()
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -44,17 +45,28 @@ export const RegisterForm = () => {
     pending(true)
     createUserWithEmailAndPassword(auth, values.email, values.password)
     .then((userCredential) => {
-      updateProfile(userCredential.user, { displayName: values.name })
-      .then((userCredential1) => {
+        updateProfile(userCredential.user, { displayName: values.name })
+        .then((userCredential1) => {
+          pending(false)
+          router.push("/")
+        })
+        .catch((e) => {
+          alert(`Error: ${e.message}`);
+          pending(false)
+        });
         pending(false)
-        redirect("/")
-      })
-      .catch((e) => {
-        alert(`Error: ${e.message}`);
-      });
+    })
+    .catch((e: FirebaseError) => {
+      switch (e.message) {
+        case "Firebase: Error (auth/email-already-in-use).":
+          setError("Email already-in-use")
+          break;
+
+        default:
+          setError("Server Error please try again later")
+          break;
+      }
       pending(false)
-    }).catch((e: FirebaseError) => {
-      setError(e.message)
     });
   };
 
@@ -94,7 +106,7 @@ export const RegisterForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Email <span className="text-red-600">*</span></FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -112,7 +124,7 @@ export const RegisterForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Password <span className="text-red-600">*</span></FormLabel>
                   <FormControl>
                     <PasswordInput
                       {...field}

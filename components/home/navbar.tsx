@@ -1,6 +1,6 @@
 "use client"
 // components/Navbar.js
-import { User, signOut } from 'firebase/auth';
+import { User, sendEmailVerification, signOut } from 'firebase/auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -8,18 +8,29 @@ import Modal from './userModal';
 import { Button } from '../ui/button';
 
 import { useRouter } from "next/navigation";
-import { auth } from '@/lib/fb.config';
+import { auth, user } from '@/lib/fb.config';
+import { NEXT_URL } from 'next/dist/client/components/app-router-headers';
 
-interface navbarProps {
-  user: User | null ;
-  profileImg: string;
-}
 
-export default function Navbar({ user, profileImg }: navbarProps) {
+export default function Navbar() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [showUserTooltip, setUserTooltip] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
+  const actionCodeSettings = {
+    url: `https://${NEXT_URL}/?email=user@example.com`,
+    iOS: {
+       bundleId: 'com.example.ios'
+    },
+    android: {
+      packageName: 'com.example.android',
+      installApp: true,
+      minimumVersion: '12'
+    },
+    handleCodeInApp: true
+  }; 
+  const verify = async () =>{
+}
 
   return (
     <nav className="bg-neutralWhite shadow">
@@ -57,7 +68,7 @@ export default function Navbar({ user, profileImg }: navbarProps) {
                 >
                   <Image 
                     className="h-8 w-8 rounded-full"
-                    src={profileImg} 
+                    src={user.photoURL? user.photoURL : "/account.png"} 
                     alt="User profile" 
                     width={100} height={100}
                   />
@@ -72,7 +83,8 @@ export default function Navbar({ user, profileImg }: navbarProps) {
                      <div className="p-4">
                        <h2 className="text-xl font-bold mb-4">{user.displayName}</h2>
                        <p className="text-sm text-gray-700 mb-2">Email: {user.email}</p>
-                       <Button 
+                       <p>Email Verified : { user.emailVerified ? 'true' : (<Button onClick={(e) => verify() }>verify</Button>)} </p>
+                       <Button
                           className="px-3 py-2 bg-primary text-neutralWhite rounded-lg font-semibold text-sm uppercase tracking-wide "
                           onClick={() => { signOut(auth) }} >
                          Logout

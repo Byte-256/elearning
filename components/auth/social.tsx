@@ -1,7 +1,7 @@
 "use client";
 
 import { FcGoogle } from "react-icons/fc";
-import { redirect, } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { GoogleAuthProvider, signInWithPopup } from "@firebase/auth";
@@ -11,13 +11,14 @@ import { Dispatch, SetStateAction, useState } from "react";
 export const Social = ({ errorMsg }: Dispatch<SetStateAction<string | undefined>> | any) => {
 
   const [isPending, setPending] = useState<boolean>(false);
+  const router = useRouter();
 
   const onClick = () => {
     setPending(true);
     signInWithPopup(auth, new GoogleAuthProvider())
     .then((credential) => {
         setPending(false);
-        redirect("/")
+        router.push("/")
     })
     .catch((e) => {
         console.error(e.message);

@@ -13,7 +13,7 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 import { useState } from "react";
 import { user, auth } from "@/lib/fb.config";
 import { signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FormError } from "./form-error";
 
 interface LoginProps {
@@ -29,6 +29,7 @@ const LoginForm = ({
 
   const [error, setError] = useState<string | undefined>("");
 
+  const router = useRouter()
 
       const onSubmit = (values: z.infer<typeof LoginSchema>) => {
       setError("")
@@ -37,7 +38,7 @@ const LoginForm = ({
       }
       signInWithEmailAndPassword(auth, values.email, values.password)
         .then((userCredential) => {
-          redirect("/");
+          router.push("/")
         })
         .catch((e) => {
           if(e.code == "auth/invalid-credential"){
