@@ -22,7 +22,7 @@ import { FormSuccess } from "@/components/form-success";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "@/lib/fb.config";
 import { FirebaseError } from "firebase/app";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { PasswordInput } from "../ui/passwordinput";
 
 export const RegisterForm = () => {
@@ -38,7 +38,6 @@ export const RegisterForm = () => {
       name: "",
     },
   });
-  const route = useRouter();
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     setSuccess("");
@@ -48,7 +47,7 @@ export const RegisterForm = () => {
       updateProfile(userCredential.user, { displayName: values.name })
       .then((userCredential1) => {
         pending(false)
-        route.push("/")
+        redirect("/")
       })
       .catch((e) => {
         alert(`Error: ${e.message}`);
@@ -68,7 +67,7 @@ export const RegisterForm = () => {
       error={setError}
     >
       <Form {...form}>
-        <form 
+        <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6"
         >

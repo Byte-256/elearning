@@ -10,25 +10,23 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PasswordInput } from "@/components/ui/passwordinput";
 import { CardWrapper } from "@/components/auth/card-wrapper";
-import { BaseSyntheticEvent, useState } from "react";
+import { useState } from "react";
 import { user, auth } from "@/lib/fb.config";
-import { User, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
-import { FirebaseError } from "firebase/app";
-import { useRouter } from "next/navigation";
+import { signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { redirect } from "next/navigation";
 import { FormError } from "./form-error";
 
 interface LoginProps {
-    hlabel: string; 
+    hlabel: string;
     bbtnlabel: string;
     bbtnhref: string;
 }
 
 const LoginForm = ({
-    hlabel, 
-    bbtnlabel, 
+    hlabel,
+    bbtnlabel,
     bbtnhref} : LoginProps) => {
 
-  const router = useRouter();
   const [error, setError] = useState<string | undefined>("");
 
 
@@ -39,7 +37,7 @@ const LoginForm = ({
       }
       signInWithEmailAndPassword(auth, values.email, values.password)
         .then((userCredential) => {
-          router.push("/");
+          redirect("/");
         })
         .catch((e) => {
           if(e.code == "auth/invalid-credential"){
@@ -48,7 +46,6 @@ const LoginForm = ({
         });
     }
 
-    
 
     const form = useForm<z.infer<typeof LoginSchema>>({
           resolver: zodResolver(LoginSchema),
@@ -63,12 +60,13 @@ const LoginForm = ({
         headerLabel={hlabel}
       backButtonLabel={bbtnlabel}
       backButtonHref={bbtnhref}
-      showSocial>
+      showSocial
+      error={setError}>
             <Form {...form}>
-        <form 
+        <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6"
-        >         
+        >
           <div className="space-y-4">
                 <FormField
                   control={form.control}

@@ -2,14 +2,13 @@
 
 import { auth } from "@/lib/fb.config";
 import { signOut } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 interface LogoutProps {}
 
 const Logout = ({}: LogoutProps) => {
-    const router = useRouter();
     signOut(auth).then((d) => {
-        router.push("/")
+        redirect("/")
     })
     return (
         <div>
