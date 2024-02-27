@@ -16,12 +16,12 @@ const Home = () => {
     onAuthStateChanged(auth, (firebaseUser) => {
         setUser(firebaseUser);
     })
-  }, [])
+  }, [user])
   const picuri: string = user?.photoURL ? user.photoURL : "/account.png";
   return(
 <div>
       <main className="bg-gray-100 min-h-screen">
-        <Navbar />
+        <Navbar user={ user }/>
         <Hero />
         <FeaturedCourses />
         <Footer />

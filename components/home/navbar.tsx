@@ -3,34 +3,25 @@
 import { User, sendEmailVerification, signOut } from 'firebase/auth';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from './userModal';
 import { Button } from '../ui/button';
+import { auth } from '@/lib/fb.config';
+import UserProfile from './userProfile';
 
-import { useRouter } from "next/navigation";
-import { auth, user } from '@/lib/fb.config';
-import { NEXT_URL } from 'next/dist/client/components/app-router-headers';
-
-
-export default function Navbar() {
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [showUserTooltip, setUserTooltip] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const router = useRouter();
-  const actionCodeSettings = {
-    url: `https://${NEXT_URL}/?email=user@example.com`,
-    iOS: {
-       bundleId: 'com.example.ios'
-    },
-    android: {
-      packageName: 'com.example.android',
-      installApp: true,
-      minimumVersion: '12'
-    },
-    handleCodeInApp: true
-  }; 
-  const verify = async () =>{
+interface NavBarProps{
+  user: User | null;
 }
+export default function Navbar({user} : NavBarProps) {
+
+  const [isLoading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      setLoading(false);
+    };
+    checkAuthentication();
+  }, [user]);
 
   return (
     <nav className="bg-neutralWhite shadow">
@@ -57,55 +48,7 @@ export default function Navbar() {
             </div>
           </div>
           <div className="ml-4 flex items-center md:ml-6 relative">
-            {user ? (
-              // If user is logged in, show profile image with tooltip
-              <>
-                <div 
-                  className="relative cursor-pointer"
-                  onMouseEnter={() => setShowTooltip(true)}
-                  onMouseLeave={() => setShowTooltip(false)}
-                  onClick={() => setUserTooltip(!showUserTooltip)}
-                >
-                  <Image 
-                    className="h-8 w-8 rounded-full"
-                    src={user.photoURL? user.photoURL : "/account.png"} 
-                    alt="User profile" 
-                    width={100} height={100}
-                  />
-                  {showTooltip && (
-                    <div className="absolute bg-white shadow-md p-2 rounded-lg top-10 right-0">
-                      <p className="text-sm text-gray-700">{user.displayName}</p>
-                      <p className="text-xs text-gray-500">{user.email}</p>
-                    </div>
-                  )}
-                  {showUserTooltip && (
-                     <Modal onClose={() => setShowModal(false)}>
-                     <div className="p-4">
-                       <h2 className="text-xl font-bold mb-4">{user.displayName}</h2>
-                       <p className="text-sm text-gray-700 mb-2">Email: {user.email}</p>
-                       <p>Email Verified : { user.emailVerified ? 'true' : (<Button onClick={(e) => verify() }>verify</Button>)} </p>
-                       <Button
-                          className="px-3 py-2 bg-primary text-neutralWhite rounded-lg font-semibold text-sm uppercase tracking-wide "
-                          onClick={() => { signOut(auth) }} >
-                         Logout
-                       </Button>
-                     </div>
-                   </Modal>
-                  )
-                  }
-                </div>
-              </>
-            ) : (
-              // If user is not logged in, show login or signup buttons
-              <>
-                <Link href="/login" className="text-darkBlueGrey hover:text-primary">
-                    Login
-                </Link>
-                <Link href="/signup" className="ml-4 px-3 py-2 bg-primary text-neutralWhite rounded-lg font-semibold text-sm uppercase tracking-wide hover:bg-accentYellow focus:outline-none focus:bg-accentYellow">
-                    Signup
-                </Link>
-              </>
-            )}
+            {isLoading ? null :(<UserProfile user={user}/>)}
           </div>
         </div>
       </div>
