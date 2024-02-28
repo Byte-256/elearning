@@ -1,30 +1,52 @@
-// components/CourseCard.js
-"use client"
+// // components/CourseCard.js
+"use client";
+
+interface CourseCardProps {
+  courseName: string;
+  description: string;
+  courseCover: string;
+}
+import React from "react";
+import Link from "next/link";
+import { Card, Typography } from "antd";
+import { PlayCircleOutlined } from "@ant-design/icons";
 import Image from "next/image";
 
-interface CourseCardProps{
-     courseName: string;
-   description: string;
-   courseCover: string;
-}
+const { Meta } = Card;
+const { Text } = Typography;
 
-export default function CourseCard({
-   courseName,
-   description,
-   courseCover
-}: CourseCardProps) {
-    
+const CourseCard = ({
+  courseName,
+  description,
+  courseCover,
+}: CourseCardProps) => {
   return (
-      <div className="bg-white rounded-lg overflow-hidden shadow-md">
-        <Image className="w-full h-64 object-cover" src={courseCover} alt="Course 1" height={100} width={100}/>
-        <div className="p-6">
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">{courseName}</h3>
-          <p className="text-gray-600">{description}</p>
-          <div className="mt-4">
-            <a href="#" className="text-indigo-600 hover:text-indigo-500 font-semibold">Learn More</a>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  
+    <Link href="#" passHref>
+      <Card
+        hoverable
+        cover={
+          <Image
+            alt="Course Cover"
+            src={courseCover}
+            width={100}
+            height={100}
+          />
+        }
+        style={{ width: 300, marginTop: 16 }}
+        actions={[
+          <PlayCircleOutlined key="play" />,
+          <Link href="#" passHref key="linkCourse">
+            Learn More
+          </Link>,
+        ]}
+      >
+        <Meta
+          title={<Text strong>{courseName}</Text>}
+          description={<Text>{description}</Text>}
+        />
+      </Card>
+    </Link>
+  );
+};
+
+export default CourseCard;

@@ -1,4 +1,5 @@
 // components/Navbar.tsx
+"use client";
 
 const Navbar: React.FC = () => {
     return (

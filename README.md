@@ -1,6 +1,7 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+### Getting Started
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 First, run the development server:
 
@@ -35,7 +36,50 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
+### Colors used
 
-### Colors used 
+primary #6090fa || #42c3ff
+accent  #F9C80E || #fdcdee
 
-\#
+## File Struture
+
+project-root/
+├── app/
+│   ├── (auth)/
+│   ├── admin/
+│   ├── colors.css
+│   ├── globals.css
+│   └── layout.tsx
+├── assets/
+│   └── bg.jpg
+├── components/
+│   ├── auth/
+│   ├── form-error.tsx
+│   ├── form-success.tsx
+│   ├── home/
+│   ├── login-form.tsx
+│   └── ui/
+├── lib/
+│   ├── fb.config.js
+│   ├── utils.ts
+│   └── public/
+│       ├── account.png
+│       ├── account.svg
+│       ├── bg1.jpg
+│       ├── course1.jpg
+│       ├── logo.svg
+│       ├── next.svg
+│       └── vercel.svg
+├── schema/
+│   └── index.ts
+├── components.json
+├── middleware.ts
+├── next.config.mjs
+├── next-env.d.ts
+├── package.json
+├── package-lock.json
+├── postcss.config.js
+├── README.md
+├── tailwind.config.ts
+├── TODO
+└── tsconfig.json

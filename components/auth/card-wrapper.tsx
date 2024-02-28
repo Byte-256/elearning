@@ -1,10 +1,10 @@
 "use client";
 
-import { 
+import {
   Card,
   CardContent,
   CardFooter,
-  CardHeader
+  CardHeader,
 } from "@/components/ui/card";
 import { Header } from "@/components/auth/header";
 import { Social } from "@/components/auth/social";
@@ -18,7 +18,7 @@ interface CardWrapperProps {
   backButtonHref: string;
   showSocial?: boolean;
   error: Dispatch<SetStateAction<string | undefined>>;
-};
+}
 
 export const CardWrapper = ({
   children,
@@ -26,27 +26,21 @@ export const CardWrapper = ({
   backButtonLabel,
   backButtonHref,
   showSocial,
-  error
+  error,
 }: CardWrapperProps) => {
   return (
     <Card className="w-[400px] shadow-md">
       <CardHeader>
         <Header label={headerLabel} />
       </CardHeader>
-      <CardContent>
-        {children}
-      </CardContent>
+      <CardContent>{children}</CardContent>
       {showSocial && (
         <CardFooter>
-          <Social 
-          errorMsg={error}/>
+          <Social errorMsg={error} />
         </CardFooter>
       )}
       <CardFooter>
-        <BackButton
-          label={backButtonLabel}
-          href={backButtonHref}
-        />
+        <BackButton label={backButtonLabel} href={backButtonHref} />
       </CardFooter>
     </Card>
   );

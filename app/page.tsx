@@ -1,5 +1,4 @@
-'use client';
-
+"use client";
 import { auth } from "@/lib/fb.config";
 import { User, onAuthStateChanged } from "firebase/auth";
 
@@ -9,26 +8,34 @@ import FeaturedCourses from "@/components/home/featured";
 import Footer from "@/components/home/footer";
 import Hero from "@/components/home/hero";
 import Navbar from "@/components/home/navbar";
+import Loading from "@/components/ui/Loading";
 
 const Home = () => {
   const [user, setUser] = useState<User | null>(null);
-  useEffect(() => {
-    onAuthStateChanged(auth, (firebaseUser) => {
-        setUser(firebaseUser);
-    })
-  }, [user])
-  const picuri: string = user?.photoURL ? user.photoURL : "/account.png";
-  return(
-<div>
-      <main className="bg-gray-100 min-h-screen">
-        <Navbar user={ user }/>
-        <Hero />
-        <FeaturedCourses />
-        <Footer />
-      </main>
-    </div>
-  );
+  const [isLoading, setLoading] = useState<boolean>(true);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+      setTimeout(() => setLoading(false), 100);
+    });
+    return unsubscribe;
+  }, [user]);
+
+  if (!isLoading) {
+    return (
+      <div>
+        <main className="bg-gray-100 min-h-screen">
+          <Navbar user={user} />
+          <Hero />
+          <FeaturedCourses />
+          <Footer />
+        </main>
+      </div>
+    );
+  } else {
+    return <Loading />;
+  }
 };
 
 export default Home;

@@ -6,7 +6,9 @@ import CourseCard from "./coursecard";
 import { ref, get, DataSnapshot, onValue } from 'firebase/database'
 import { db } from "@/lib/fb.config";
 
+const CourseRef = ref(db, "/Courses");
 export default function FeaturedCourses() {
+
   const [courses, setCourses] = useState([
     {
       title: "Example 1",
@@ -19,7 +21,6 @@ export default function FeaturedCourses() {
   ]);
 
   useEffect(() => {
-    const CourseRef = ref(db, "/Courses");
     onValue(CourseRef, (snapshot: DataSnapshot) => {
       const coursesData = snapshot.val();
       if (coursesData) {

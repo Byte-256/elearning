@@ -1,27 +1,15 @@
-"use client"
 // components/Navbar.js
-import { User, sendEmailVerification, signOut } from 'firebase/auth';
+"use client";
+
+import { User } from 'firebase/auth';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import Modal from './userModal';
-import { Button } from '../ui/button';
-import { auth } from '@/lib/fb.config';
 import UserProfile from './userProfile';
 
 interface NavBarProps{
   user: User | null;
 }
 export default function Navbar({user} : NavBarProps) {
-
-  const [isLoading, setLoading] = useState<boolean>(true);
-  useEffect(() => {
-    const checkAuthentication = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      setLoading(false);
-    };
-    checkAuthentication();
-  }, [user]);
 
   return (
     <nav className="bg-neutralWhite shadow">
@@ -48,7 +36,7 @@ export default function Navbar({user} : NavBarProps) {
             </div>
           </div>
           <div className="ml-4 flex items-center md:ml-6 relative">
-            {isLoading ? null :(<UserProfile user={user}/>)}
+            <UserProfile user={user}/>
           </div>
         </div>
       </div>

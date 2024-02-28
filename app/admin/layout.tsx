@@ -1,5 +1,5 @@
 // Import your globals here
-import "@/app/globals.css";
+// import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
 
@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Isaac Academy",
-  description: "Sample description",
+  title: "Admin panel",
+  description: "Admin Panel for Admin User",
 };
 
 export default function RootLayout({

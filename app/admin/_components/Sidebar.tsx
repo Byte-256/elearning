@@ -1,4 +1,5 @@
 // components/Sidebar.tsx
+"use client";
 
 const Sidebar: React.FC = () => {
     return (

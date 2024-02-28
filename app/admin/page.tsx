@@ -1,14 +1,8 @@
+"use client";
 // pages/admin/index.tsx
-
-import { Metadata } from 'next';
-import Sidebar from './_components/Sidebar';
-import Navbar from './_components/Navbar';
-import AddCourse from './_components/Add_cousre';
-
-export const metadata: Metadata = {
-    title: 'My Page Title',
-    description: "Admin panel for managing eLearning website",
-  }
+import Sidebar from "./_components/Sidebar";
+import Navbar from "./_components/Navbar";
+import AddCourse from "./_components/Add_course";
 
 const AdminPanel: React.FC = () => {
   return (

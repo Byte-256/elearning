@@ -5,64 +5,55 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
   Form,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { LoginSchema } from "@/schema";
+import { ResetSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { PasswordInput } from "@/components/ui/passwordinput";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { useState } from "react";
 import { auth } from "@/lib/fb.config";
-import {
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-  signOut,
-  updateProfile,
-} from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { FormError } from "./form-error";
+import { FormError } from "../form-error";
 
-interface LoginProps {
+interface ResetProps {
   hlabel: string;
   bbtnlabel: string;
   bbtnhref: string;
 }
 
-const LoginForm = ({ hlabel, bbtnlabel, bbtnhref }: LoginProps) => {
+const ResetForm = ({ hlabel, bbtnlabel, bbtnhref }: ResetProps) => {
   const [error, setError] = useState<string | undefined>("");
+  const [isPending, setPending] = useState<boolean>(false);
+  const [Message, setMessage] = useState<string>("");
   const currentUser = auth.currentUser;
 
   const router = useRouter();
 
-  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof ResetSchema>) => {
     setError("");
-    if (currentUser) {
-      signOut(auth);
-    }
-
-    await signInWithEmailAndPassword(auth, values.email, values.password)
-      .then((userCredential) => {
-        router.push("/");
+    setPending(true);
+    await sendPasswordResetEmail(auth, values.email)
+      .then(() => {
+        setMessage("Check your inbox");
+        setPending(false);
       })
       .catch((e) => {
-        if (e.code == "auth/invalid-credential") {
-          setError("Invalid Email/Password");
-        }
+        setError(e);
+        setPending(false);
       });
   };
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof ResetSchema>>({
+    resolver: zodResolver(ResetSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
@@ -71,7 +62,7 @@ const LoginForm = ({ hlabel, bbtnlabel, bbtnhref }: LoginProps) => {
       headerLabel={hlabel}
       backButtonLabel={bbtnlabel}
       backButtonHref={bbtnhref}
-      showSocial
+      showSocial={false}
       error={setError}
     >
       <Form {...form}>
@@ -86,48 +77,27 @@ const LoginForm = ({ hlabel, bbtnlabel, bbtnhref }: LoginProps) => {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={false}
+                      disabled={isPending}
                       placeholder="isaac@gmail.com"
                       type="email"
                     />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <PasswordInput
-                      {...field}
-                      disabled={false}
-                      placeholder="******"
-                    />
-                  </FormControl>
-                  <Button
-                    size="sm"
-                    variant="link"
-                    asChild
-                    className="px-0 font-normal"
-                  >
-                    <Link href="/reset">Forgot Password?</Link>
-                  </Button>
-                  <FormMessage />
+                  {Message ? (
+                    <FormMessage>{Message}</FormMessage>
+                  ) : (
+                    <FormMessage />
+                  )}
                 </FormItem>
               )}
             />
           </div>
           <FormError message={error} />
           <Button
-            disabled={false}
+            disabled={isPending}
             type="submit"
             className="w-full bg-[#1d58f6]"
           >
-            Login
+            Reset
           </Button>
         </form>
       </Form>
@@ -135,4 +105,4 @@ const LoginForm = ({ hlabel, bbtnlabel, bbtnhref }: LoginProps) => {
   );
 };
 
-export default LoginForm;
+export default ResetForm;

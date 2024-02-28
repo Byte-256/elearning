@@ -1,17 +1,15 @@
-'use client';
+"use client";
 
 import LoginForm from "@/components/login-form";
 
 const Login = () => {
-
-  return(
-    <LoginForm 
+  return (
+    <LoginForm
       hlabel="Welcome back"
       bbtnlabel="Don't have an Account?"
-      bbtnhref="/signup"
-      />
+      bbtnhref="/register"
+    />
   );
+};
 
-}
-
-export default Login;   
+export default Login;
