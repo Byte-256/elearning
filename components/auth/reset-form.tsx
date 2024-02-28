@@ -78,7 +78,7 @@ const ResetForm = ({ hlabel, bbtnlabel, bbtnhref }: ResetProps) => {
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="isaac@gmail.com"
+                      placeholder="example@mail.com"
                       type="email"
                     />
                   </FormControl>

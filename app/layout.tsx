@@ -1,6 +1,6 @@
 // Import your globals here
 import "@/app/globals.css";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter } from "next/font/google";
 
 const inter = Inter({
@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Isaac Academy",
+  title: "E-Learning",
   description: "Sample description",
 };
 
@@ -19,7 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <SpeedInsights />
+        {children}
+      </body>
     </html>
   );
 }

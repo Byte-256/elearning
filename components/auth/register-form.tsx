@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { CardWrapper } from "@/components/auth/card-wrapper"
+import { CardWrapper } from "@/components/auth/card-wrapper";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
@@ -30,7 +30,7 @@ export const RegisterForm = () => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, pending] = useState<boolean | undefined>(false);
 
-  const router = useRouter()
+  const router = useRouter();
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -42,32 +42,32 @@ export const RegisterForm = () => {
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     setSuccess("");
-    pending(true)
+    pending(true);
     createUserWithEmailAndPassword(auth, values.email, values.password)
-    .then((userCredential) => {
+      .then((userCredential) => {
         updateProfile(userCredential.user, { displayName: values.name })
-        .then((userCredential1) => {
-          pending(false)
-          router.push("/")
-        })
-        .catch((e) => {
-          alert(`Error: ${e.message}`);
-          pending(false)
-        });
-        pending(false)
-    })
-    .catch((e: FirebaseError) => {
-      switch (e.message) {
-        case "Firebase: Error (auth/email-already-in-use).":
-          setError("Email already-in-use")
-          break;
+          .then((userCredential1) => {
+            pending(false);
+            router.push("/");
+          })
+          .catch((e) => {
+            alert(`Error: ${e.message}`);
+            pending(false);
+          });
+        pending(false);
+      })
+      .catch((e: FirebaseError) => {
+        switch (e.message) {
+          case "Firebase: Error (auth/email-already-in-use).":
+            setError("Email already-in-use");
+            break;
 
-        default:
-          setError("Server Error please try again later")
-          break;
-      }
-      pending(false)
-    });
+          default:
+            setError("Server Error please try again later");
+            break;
+        }
+        pending(false);
+      });
   };
 
   return (
@@ -79,23 +79,16 @@ export const RegisterForm = () => {
       error={setError}
     >
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Full Name</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="Isaac Newton"
-                    />
+                    <Input {...field} disabled={isPending} placeholder="Name" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -106,12 +99,14 @@ export const RegisterForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email <span className="text-red-600">*</span></FormLabel>
+                  <FormLabel>
+                    Email <span className="text-red-600">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="isaac.newton@apples.com"
+                      placeholder="example@mail.com"
                       type="email"
                     />
                   </FormControl>
@@ -124,7 +119,9 @@ export const RegisterForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password <span className="text-red-600">*</span></FormLabel>
+                  <FormLabel>
+                    Password <span className="text-red-600">*</span>
+                  </FormLabel>
                   <FormControl>
                     <PasswordInput
                       {...field}
@@ -139,11 +136,7 @@ export const RegisterForm = () => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button
-            disabled={isPending}
-            type="submit"
-            className="w-full"
-          >
+          <Button disabled={isPending} type="submit" className="w-full">
             Create an account
           </Button>
         </form>

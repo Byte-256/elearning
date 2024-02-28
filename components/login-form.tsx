@@ -87,7 +87,7 @@ const LoginForm = ({ hlabel, bbtnlabel, bbtnhref }: LoginProps) => {
                     <Input
                       {...field}
                       disabled={false}
-                      placeholder="isaac@gmail.com"
+                      placeholder="example@mail.com"
                       type="email"
                     />
                   </FormControl>
