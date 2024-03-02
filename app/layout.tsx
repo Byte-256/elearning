@@ -6,12 +6,10 @@ export default async function RootLayout({
   children: JSX.Element;
 }) {
   return (
-    <html lang="en">
+    <html>
       <head />
       <body>
-        <main>
-          <AuthProvider>{children}</AuthProvider>
-        </main>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

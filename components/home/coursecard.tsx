@@ -9,15 +9,17 @@ import "@/app/globals.css";
 
 import React from "react";
 
-import Link from "next/link";
 import {
   Card,
   CardHeader,
-  CardBody,
   CardFooter,
-  Image,
-  Button,
-} from "@nextui-org/react";
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../ui/card";
+
+import Link from "next/link";
+import Image from "next/image";
 
 const CourseCard = ({
   courseName,
@@ -25,19 +27,22 @@ const CourseCard = ({
   courseCover,
 }: CourseCardProps) => {
   return (
-    <Card className="bg-blue-300/15 border-white/20 border-1">
+    <Card className=" rounded-2xl">
       <CardHeader className="">
-        <h4 className="font-bold text-large">{courseName}</h4>
-        <p className="text-tiny uppercase font-bold">{description}</p>
+        <CardTitle className="font-bold text-xl mb-2">{courseName}</CardTitle>
+        <CardDescription className="text-gray-700 text-base">
+          {description}
+        </CardDescription>
       </CardHeader>
-      <CardBody className=" ">
+      <CardContent>
         <Image
-          alt="Card background"
-          className="object-cover"
           src={courseCover}
-          width={270}
+          alt={courseName}
+          className="w-full"
+          width={100}
+          height={100}
         />
-      </CardBody>
+      </CardContent>
     </Card>
   );
 };

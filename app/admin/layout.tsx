@@ -1,5 +1,5 @@
+import "@/app/globals.css";
 // Import your globals here
-// import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
 
@@ -17,5 +17,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div>{children}</div>;
+  return children;
 }

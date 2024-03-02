@@ -19,23 +19,26 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = ({
   children,
 }) => {
   const [user, setUser] = useState<FirebaseUser | null>(null);
-  const [isLoading, setLoading] = useState<boolean>(false);
-
+  const [isLoading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
-      setLoading(true);
+      setLoading(false);
     });
     return () => unsubscribe();
   }, [user]);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-      }}
-    >
-      {!isLoading ? <Loading /> : children}
-    </AuthContext.Provider>
-  );
+  if (isLoading) {
+    return <Loading />;
+  } else {
+    return (
+      <AuthContext.Provider
+        value={{
+          user,
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+    );
+  }
 };

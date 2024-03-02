@@ -5,7 +5,7 @@ interface ModalProps {
 
 export default function Modal({ children, onClose }: ModalProps) {
   return (
-    <div className="fixed inset-0 overflow-y-auto z-50 flex justify-center items-center bg-gray-500 bg-opacity-75">
+    <div className=" absolute inset-0 overflow-y-auto z-50 flex justify-center items-center bg-gray-500 bg-opacity-75">
       <div className="bg-white p-6 rounded-lg">
         <div className="flex justify-end">
           <button

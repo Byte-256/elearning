@@ -7,6 +7,21 @@ import { Button } from "../ui/button";
 import { User, sendEmailVerification, signOut } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/lib/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Loading from "../ui/Loading";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { FcCloseUpMode } from "react-icons/fc";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { PanelBottomClose } from "lucide-react";
 
 export default function UserProfile() {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -37,50 +52,42 @@ export default function UserProfile() {
       <div>
         {user ? (
           // If user is logged in, show profile image with tooltip
-          <div
-            className="relative cursor-pointer"
-            onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => setShowTooltip(false)}
-            onClick={() => setShowModal(!showModal)}
-          >
-            <Image
-              className="h-8 w-8 rounded-full"
-              src={user.photoURL ? user.photoURL : "/account.png"}
-              alt="User profile"
-              width={100}
-              height={100}
-            />
+          <div className="relative cursor-pointer">
+            <Drawer>
+              <DrawerTrigger>
+                <Avatar
+                  onMouseEnter={() => setShowTooltip(true)}
+                  onMouseLeave={() => setShowTooltip(false)}
+                >
+                  <AvatarImage src={user.photoURL!} />
+                  <AvatarFallback className="bg-slate-500/50">
+                    {user.displayName?.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerHeader>
+                  <DrawerTitle>{user.displayName}</DrawerTitle>
+                  <DrawerDescription>{user.email}</DrawerDescription>
+                  <Button variant="destructive" onClick={() => auth.signOut()}>
+                    Logout
+                  </Button>
+                </DrawerHeader>
+                <DrawerFooter>
+                  <DrawerClose>
+                    <Button variant="outline">
+                      {<PanelBottomClose width={20} height={20} />}
+                    </Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
+
             {showTooltip && (
               <div className="absolute bg-slate-300/80 bg-opacity-75 shadow-md p-2 rounded-lg top-10 right-0">
                 <p className="text-sm text-gray-700">{user.displayName}</p>
                 <p className="text-xs text-gray-500">{user.email}</p>
               </div>
-            )}
-            {showModal && (
-              <Modal onClose={() => setShowModal(false)}>
-                <div className="p-4">
-                  <h2 className="text-xl font-bold mb-4">{user.displayName}</h2>
-                  <p className="text-sm text-gray-700 mb-2">
-                    Email: {user.email}
-                  </p>
-                  <p>
-                    Email Verified :{" "}
-                    {user.emailVerified ? (
-                      "true"
-                    ) : (
-                      <Button onClick={(e) => verifyUser()}>verify</Button>
-                    )}{" "}
-                  </p>
-                  <Button
-                    className="px-3 py-2 bg-primary text-neutralWhite rounded-lg font-semibold text-sm uppercase tracking-wide "
-                    onClick={() => {
-                      signOut(auth);
-                    }}
-                  >
-                    Logout
-                  </Button>
-                </div>
-              </Modal>
             )}
           </div>
         ) : (
@@ -103,6 +110,8 @@ export default function UserProfile() {
       </div>
     );
   } else {
-    return null;
+    return (
+      <div className="w-10 h-10 border-4 border-blue-500 rounded-full animate-spin border-t-transparent"></div>
+    );
   }
 }

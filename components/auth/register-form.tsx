@@ -32,6 +32,9 @@ export const RegisterForm = () => {
   const [isPending, setPending] = useState<boolean | undefined>(false);
 
   const router = useRouter();
+  if (auth.currentUser) {
+    router.replace("/");
+  }
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {

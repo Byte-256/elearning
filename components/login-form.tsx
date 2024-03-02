@@ -35,8 +35,10 @@ const LoginForm = ({ hlabel, bbtnlabel, bbtnhref }: LoginProps) => {
   const [error, setError] = useState<string | undefined>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const currentUser = auth.currentUser;
-
   const router = useRouter();
+  if (currentUser) {
+    router.replace("/");
+  }
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setError("");

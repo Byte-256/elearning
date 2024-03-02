@@ -6,7 +6,7 @@ import CourseCard from "./coursecard";
 import { ref, get, DataSnapshot, onValue } from "firebase/database";
 import { db } from "@/lib/fb.config";
 
-const CourseRef = ref(db, "/Courses");
+const CourseRef = ref(db, "/FeaturedCourses");
 export default function FeaturedCourses() {
   const [courses, setCourses] = useState([
     {

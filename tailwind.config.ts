@@ -26,8 +26,6 @@ const config = {
         accentOrange: "#FFA07A",
         neutralWhite: "#FFFFFF",
         neutralLightGrey: "#F5F5F5",
-        // primary: "#6090fa",
-        // accent: "#3b76f6",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
