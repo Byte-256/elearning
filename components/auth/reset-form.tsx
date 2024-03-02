@@ -14,13 +14,17 @@ import { ResetSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { useState } from "react";
 import { auth } from "@/lib/fb.config";
-import { sendPasswordResetEmail } from "firebase/auth";
+import {
+  AuthError,
+  fetchSignInMethodsForEmail,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { FormError } from "../form-error";
+import { FormSuccess } from "../form-success";
 
 interface ResetProps {
   hlabel: string;
@@ -32,7 +36,6 @@ const ResetForm = ({ hlabel, bbtnlabel, bbtnhref }: ResetProps) => {
   const [error, setError] = useState<string | undefined>("");
   const [isPending, setPending] = useState<boolean>(false);
   const [Message, setMessage] = useState<string>("");
-  const currentUser = auth.currentUser;
 
   const router = useRouter();
 
@@ -43,6 +46,7 @@ const ResetForm = ({ hlabel, bbtnlabel, bbtnhref }: ResetProps) => {
       .then(() => {
         setMessage("Check your inbox");
         setPending(false);
+        setTimeout(() => router.replace("/login"), 5000);
       })
       .catch((e) => {
         setError(e);
@@ -82,16 +86,13 @@ const ResetForm = ({ hlabel, bbtnlabel, bbtnhref }: ResetProps) => {
                       type="email"
                     />
                   </FormControl>
-                  {Message ? (
-                    <FormMessage>{Message}</FormMessage>
-                  ) : (
-                    <FormMessage />
-                  )}
+                  <FormMessage />
                 </FormItem>
               )}
             />
           </div>
           <FormError message={error} />
+          <FormSuccess message={Message} />
           <Button
             disabled={isPending}
             type="submit"

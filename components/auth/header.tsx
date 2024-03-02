@@ -1,12 +1,9 @@
-"use client";
-
-import { Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 
-const font = Poppins({
+const font = Inter({
   subsets: ["latin"],
-  weight: ["600"],
 });
 
 interface HeaderProps {

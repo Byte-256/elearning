@@ -19,13 +19,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
-      <div
-        id="root"
-        className="loginbody h-svh flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-500 to-blue-600"
-      >
-        {children}
-      </div>
-    </html>
+    <div
+      id="root"
+      className="loginbody h-svh flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-500 to-blue-600"
+    >
+      {children}
+    </div>
   );
 }

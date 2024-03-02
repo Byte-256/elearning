@@ -1,4 +1,3 @@
-"use client";
 // pages/admin/index.tsx
 import Sidebar from "./_components/Sidebar";
 import Navbar from "./_components/Navbar";

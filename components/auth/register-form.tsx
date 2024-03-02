@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -24,11 +24,12 @@ import { auth } from "@/lib/fb.config";
 import { FirebaseError } from "firebase/app";
 import { useRouter } from "next/navigation";
 import { PasswordInput } from "../ui/passwordinput";
+import Loading from "../ui/Loading";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, pending] = useState<boolean | undefined>(false);
+  const [isPending, setPending] = useState<boolean | undefined>(false);
 
   const router = useRouter();
   const form = useForm<z.infer<typeof RegisterSchema>>({
@@ -42,19 +43,21 @@ export const RegisterForm = () => {
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     setSuccess("");
-    pending(true);
+    setPending(true);
     createUserWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
         updateProfile(userCredential.user, { displayName: values.name })
           .then((userCredential1) => {
-            pending(false);
-            router.push("/");
+            setPending(false);
+            setSuccess("Account Created Successfully!");
+            setTimeout(() => router.push("/"), 500);
           })
           .catch((e) => {
             alert(`Error: ${e.message}`);
-            pending(false);
+            setPending(false);
           });
-        pending(false);
+        setPending(false);
+        setTimeout(() => router.push("/"), 500);
       })
       .catch((e: FirebaseError) => {
         switch (e.message) {
@@ -66,7 +69,7 @@ export const RegisterForm = () => {
             setError("Server Error please try again later");
             break;
         }
-        pending(false);
+        setPending(false);
       });
   };
 
@@ -78,6 +81,7 @@ export const RegisterForm = () => {
       showSocial
       error={setError}
     >
+      {isPending && <Loading />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">

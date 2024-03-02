@@ -1,19 +1,23 @@
-// // components/CourseCard.js
-"use client";
-
+// components/CourseCard.js
 interface CourseCardProps {
   courseName: string;
   description: string;
   courseCover: string;
 }
-import React from "react";
-import Link from "next/link";
-import { Card, Typography } from "antd";
-import { PlayCircleOutlined } from "@ant-design/icons";
-import Image from "next/image";
 
-const { Meta } = Card;
-const { Text } = Typography;
+import "@/app/globals.css";
+
+import React from "react";
+
+import Link from "next/link";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Image,
+  Button,
+} from "@nextui-org/react";
 
 const CourseCard = ({
   courseName,
@@ -21,31 +25,20 @@ const CourseCard = ({
   courseCover,
 }: CourseCardProps) => {
   return (
-    <Link href="#" passHref>
-      <Card
-        hoverable
-        cover={
-          <Image
-            alt="Course Cover"
-            src={courseCover}
-            width={100}
-            height={100}
-          />
-        }
-        style={{ width: 300, marginTop: 16 }}
-        actions={[
-          <PlayCircleOutlined key="play" />,
-          <Link href="#" passHref key="linkCourse">
-            Learn More
-          </Link>,
-        ]}
-      >
-        <Meta
-          title={<Text strong>{courseName}</Text>}
-          description={<Text>{description}</Text>}
+    <Card className="bg-blue-300/15 border-white/20 border-1">
+      <CardHeader className="">
+        <h4 className="font-bold text-large">{courseName}</h4>
+        <p className="text-tiny uppercase font-bold">{description}</p>
+      </CardHeader>
+      <CardBody className=" ">
+        <Image
+          alt="Card background"
+          className="object-cover"
+          src={courseCover}
+          width={270}
         />
-      </Card>
-    </Link>
+      </CardBody>
+    </Card>
   );
 };
 

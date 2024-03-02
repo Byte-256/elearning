@@ -1,12 +1,7 @@
-'use client';
-
 import { RegisterForm } from "@/components/auth/register-form";
 
-
 const Page = () => {
-return(
-    <RegisterForm />
-)  
+  return <RegisterForm />;
 };
 
 export default Page;

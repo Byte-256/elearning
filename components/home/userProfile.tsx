@@ -5,20 +5,18 @@ import Image from "next/image";
 import Modal from "./userModal";
 import { Button } from "../ui/button";
 import { User, sendEmailVerification, signOut } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "@/lib/AuthContext";
 
-interface UserProfileProps {
-  user: User | null;
-}
-
-export default function UserProfile({ user }: UserProfileProps) {
+export default function UserProfile() {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [showTooltip, setShowTooltip] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const checkAuthentication = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       setLoading(false);
     };
     checkAuthentication();
@@ -53,7 +51,7 @@ export default function UserProfile({ user }: UserProfileProps) {
               height={100}
             />
             {showTooltip && (
-              <div className="absolute bg-white shadow-md p-2 rounded-lg top-10 right-0">
+              <div className="absolute bg-slate-300/80 bg-opacity-75 shadow-md p-2 rounded-lg top-10 right-0">
                 <p className="text-sm text-gray-700">{user.displayName}</p>
                 <p className="text-xs text-gray-500">{user.email}</p>
               </div>

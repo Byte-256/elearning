@@ -1,27 +1,17 @@
-// Import your globals here
-import "@/app/globals.css";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Inter } from "next/font/google";
+import { AuthProvider } from "@/lib/AuthProvider";
 
-const inter = Inter({
-  subsets: ["latin"],
-});
-
-export const metadata = {
-  title: "E-Learning",
-  description: "Sample description",
-};
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: JSX.Element;
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <SpeedInsights />
-        {children}
+      <head />
+      <body>
+        <main>
+          <AuthProvider>{children}</AuthProvider>
+        </main>
       </body>
     </html>
   );

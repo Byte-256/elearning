@@ -20,14 +20,10 @@ import { PasswordInput } from "@/components/ui/passwordinput";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { useState } from "react";
 import { auth } from "@/lib/fb.config";
-import {
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-  signOut,
-  updateProfile,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { FormError } from "./form-error";
+import Loading from "./ui/Loading";
 
 interface LoginProps {
   hlabel: string;
@@ -37,12 +33,14 @@ interface LoginProps {
 
 const LoginForm = ({ hlabel, bbtnlabel, bbtnhref }: LoginProps) => {
   const [error, setError] = useState<string | undefined>("");
+  const [isLoading, setLoading] = useState<boolean>(false);
   const currentUser = auth.currentUser;
 
   const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setError("");
+    setLoading(true);
     if (currentUser) {
       signOut(auth);
     }
@@ -54,11 +52,13 @@ const LoginForm = ({ hlabel, bbtnlabel, bbtnhref }: LoginProps) => {
       .catch((e) => {
         if (e.code == "auth/invalid-credential") {
           setError("Invalid Email/Password");
+          setLoading(false);
+          z;
         }
       });
   };
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
+  const forms = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
@@ -67,71 +67,74 @@ const LoginForm = ({ hlabel, bbtnlabel, bbtnhref }: LoginProps) => {
   });
 
   return (
-    <CardWrapper
-      headerLabel={hlabel}
-      backButtonLabel={bbtnlabel}
-      backButtonHref={bbtnhref}
-      showSocial
-      error={setError}
-    >
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={false}
-                      placeholder="example@mail.com"
-                      type="email"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <PasswordInput
-                      {...field}
-                      disabled={false}
-                      placeholder="******"
-                    />
-                  </FormControl>
-                  <Button
-                    size="sm"
-                    variant="link"
-                    asChild
-                    className="px-0 font-normal"
-                  >
-                    <Link href="/reset">Forgot Password?</Link>
-                  </Button>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <FormError message={error} />
-          <Button
-            disabled={false}
-            type="submit"
-            className="w-full bg-[#1d58f6]"
-          >
-            Login
-          </Button>
-        </form>
-      </Form>
-    </CardWrapper>
+    <div>
+      {isLoading && <Loading />}
+      <CardWrapper
+        headerLabel={hlabel}
+        backButtonLabel={bbtnlabel}
+        backButtonHref={bbtnhref}
+        showSocial
+        error={setError}
+      >
+        <Form {...forms}>
+          <form onSubmit={forms.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="space-y-4">
+              <FormField
+                control={forms.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isLoading}
+                        placeholder="example@mail.com"
+                        type="email"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={forms.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <PasswordInput
+                        {...field}
+                        disabled={isLoading}
+                        placeholder="******"
+                      />
+                    </FormControl>
+                    <Button
+                      size="sm"
+                      variant="link"
+                      asChild
+                      className="px-0 font-normal"
+                    >
+                      <Link href="/reset">Forgot Password?</Link>
+                    </Button>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormError message={error} />
+            <Button
+              disabled={isLoading}
+              type="submit"
+              className="w-full bg-[#1d58f6]"
+            >
+              Login
+            </Button>
+          </form>
+        </Form>
+      </CardWrapper>
+    </div>
   );
 };
 
