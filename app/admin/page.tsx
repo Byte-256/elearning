@@ -1,15 +1,15 @@
 // pages/admin/index.tsx
-"use client";
 import Sidebar from "./_components/Sidebar";
 import Navbar from "./_components/Navbar";
 import AddCourse from "./_components/Add_course";
-import { useContext } from "react";
-import { AuthContext } from "@/lib/AuthContext";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/AuthProvider";
 
 const AdminPanel: React.FC = () => {
   const router = useRouter();
-  const { user } = useContext(AuthContext);
+  const auth = useAuth();
+  const user = auth?.currentUser;
+
   if (user?.email == "admin@isaac.in") {
     return (
       <div>

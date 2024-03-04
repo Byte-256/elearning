@@ -5,8 +5,8 @@ import Navbar from "@/components/home/navbar";
 const Home = () => {
   return (
     <div>
-      <main className="bg-gray-100 min-h-screen">
-        <Navbar />
+      <main className=" min-h-screen">
+        <Navbar isHome />
         <Homepage />
         <Footer />
       </main>

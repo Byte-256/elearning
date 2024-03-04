@@ -1,5 +1,4 @@
 import FeaturedCourses from "./featured";
-import Footer from "./footer";
 import Hero from "./hero";
 
 const Homepage = () => {

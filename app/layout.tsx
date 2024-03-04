@@ -1,4 +1,9 @@
 import { AuthProvider } from "@/lib/AuthProvider";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+});
 
 export default async function RootLayout({
   children,
@@ -8,7 +13,7 @@ export default async function RootLayout({
   return (
     <html>
       <head />
-      <body>
+      <body className={`${inter.className} `}>
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

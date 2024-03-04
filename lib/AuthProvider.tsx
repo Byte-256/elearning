@@ -1,44 +1,112 @@
 "use client";
-
-import * as React from "react";
-import {
-  User as FirebaseUser,
-  getAuth,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { AuthContext } from "./AuthContext";
-import { useEffect, useState } from "react";
+import { GoogleAuthProvider, User, signInWithPopup } from "firebase/auth";
+import { createContext, useContext, useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import { auth } from "./fb.config";
-import Loading from "@/components/ui/Loading";
 
-export interface AuthProviderProps {
-  children: React.ReactNode;
+export function getAuthToken(): string | undefined {
+  return Cookies.get("firebaseIdToken");
 }
 
-export const AuthProvider: React.FunctionComponent<AuthProviderProps> = ({
-  children,
-}) => {
-  const [user, setUser] = useState<FirebaseUser | null>(null);
-  const [isLoading, setLoading] = useState<boolean>(true);
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, [user]);
+export function setAuthToken(token: string): string | undefined {
+  return Cookies.set("firebaseIdToken", token, { secure: true });
+}
 
-  if (isLoading) {
-    return <Loading />;
-  } else {
-    return (
-      <AuthContext.Provider
-        value={{
-          user,
-        }}
-      >
-        {children}
-      </AuthContext.Provider>
-    );
-  }
+export function removeAuthToken(): void {
+  return Cookies.remove("firebaseIdToken");
+}
+
+type AuthContextType = {
+  currentUser: User | null;
+  isAdmin: boolean;
+  isPro: boolean;
+  loginGoogle: () => Promise<void>;
+  logout: () => Promise<void>;
 };
+
+const AuthContext = createContext<AuthContextType | null>(null);
+
+export const AuthProvider = ({ children }: { children: any }) => {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isPro, setIsPro] = useState<boolean>(false);
+
+  // Triggers when App is started
+  useEffect(() => {
+    if (!auth) return;
+
+    return auth.onAuthStateChanged(async (user) => {
+      // Triggers when user signs out
+      if (!user) {
+        setCurrentUser(null);
+        setIsAdmin(false);
+        setIsPro(false);
+        removeAuthToken();
+        return;
+      }
+
+      const token = await user.getIdToken();
+      if (user) {
+        setCurrentUser(user);
+        setAuthToken(token);
+
+        // Check if is admin
+        // const tokenValues = await user.getIdTokenResult();
+        // setIsAdmin(tokenValues.claims.role === "admin");
+      }
+    });
+  }, []);
+
+  function loginGoogle(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (!auth) {
+        reject();
+        return;
+      }
+      signInWithPopup(auth, new GoogleAuthProvider())
+        .then((user) => {
+          console.log("Signed in!");
+          resolve();
+        })
+        .catch(() => {
+          console.error("Something went wrong");
+          reject();
+        });
+    });
+  }
+
+  function logout(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (!auth) {
+        reject();
+        return;
+      }
+      auth
+        .signOut()
+        .then(() => {
+          console.log("Signed out");
+          resolve();
+        })
+        .catch(() => {
+          console.error("Something went wrong");
+          reject();
+        });
+    });
+  }
+
+  return (
+    <AuthContext.Provider
+      value={{
+        currentUser,
+        isAdmin,
+        isPro,
+        loginGoogle,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);
