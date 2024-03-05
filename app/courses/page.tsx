@@ -15,15 +15,14 @@ const Courses = ({}: CoursesProps) => {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
   return (
     <div className="flex flex-col h-screen">
-      <Navbar isCourse>
-        <Button
-          onClick={() => setShowSidebar(!showSidebar)}
-          className="fixed top-3 left-4"
-        >
-          {!showSidebar && <SidebarOpenIcon />}
-          {showSidebar && <SidebarCloseIcon />}
-        </Button>
-      </Navbar>
+      <Button
+        onClick={() => setShowSidebar(!showSidebar)}
+        className=" bg-transparent block sm:hidden fixed top-3 left-4 z-50"
+      >
+        {!showSidebar && <SidebarOpenIcon />}
+        {showSidebar && <SidebarCloseIcon />}
+      </Button>
+      <Navbar isCourse />
       <Sidebar
         className={`${
           showSidebar

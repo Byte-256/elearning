@@ -16,7 +16,6 @@ interface navbarProps {
   isCourse?: boolean;
   isAbout?: boolean;
   isContact?: boolean;
-  children: React.ReactNode;
 }
 
 export default function Navbar({
@@ -24,11 +23,10 @@ export default function Navbar({
   isCourse,
   isAbout,
   isContact,
-  children,
 }: navbarProps) {
   return (
     <Navbar1 className=" bg-blue-500/20 shadow-md h-16">
-      <NavbarItem>{children}</NavbarItem>
+      <NavbarItem></NavbarItem>
       <NavbarBrand>
         <Image src="/logo.svg" alt="logo" width={45} height={45} />
       </NavbarBrand>

@@ -1,8 +1,6 @@
 // pages/admin/AddCourse.tsx
 "use client";
 
-import { AuthContext } from "@/lib/AuthContext";
-
 import Link from "next/link";
 
 import React, { useContext, useState } from "react";
@@ -19,10 +17,11 @@ import {
 
 import { BookPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/AuthProvider";
 
 const AddCourse: React.FC = () => {
-  const { user } = useContext(AuthContext);
-
+  const user = useAuth()?.currentUser;
+  const isAdmin: boolean = user?.email == "admin@isaac.in";
   return (
     <Dialog>
       <DialogTrigger>
@@ -34,7 +33,7 @@ const AddCourse: React.FC = () => {
         <DialogHeader>
           <DialogTitle>Add Course</DialogTitle>
         </DialogHeader>
-        <AddCourseForm />
+        {isAdmin ? <AddCourseForm /> : <h4>You&#39re not a admin</h4>}
       </DialogContent>
     </Dialog>
   );

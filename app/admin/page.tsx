@@ -1,16 +1,16 @@
 // pages/admin/index.tsx
+"use client";
 import Sidebar from "./_components/Sidebar";
 import Navbar from "./_components/Navbar";
 import AddCourse from "./_components/Add_course";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/AuthProvider";
+import Link from "next/link";
 
 const AdminPanel: React.FC = () => {
-  const router = useRouter();
   const auth = useAuth();
   const user = auth?.currentUser;
 
-  if (user?.email == "admin@isaac.in") {
+  if (user?.email === "admin@isaac.in") {
     return (
       <div>
         {/* Sidebar */}
@@ -28,7 +28,7 @@ const AdminPanel: React.FC = () => {
       </div>
     );
   } else {
-    router.push("/");
+    <Link href="/">Click here</Link>;
   }
 };
 
