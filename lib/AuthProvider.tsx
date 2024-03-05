@@ -1,20 +1,18 @@
 "use client";
 import { GoogleAuthProvider, User, signInWithPopup } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import { auth } from "./fb.config";
+// export function getAuthToken(): string | undefined {
+// return Cookies.get("firebaseIdToken");
+// }
 
-export function getAuthToken(): string | undefined {
-  return Cookies.get("firebaseIdToken");
-}
+// export function setAuthToken(token: string): string | undefined {
+// return Cookies.set("firebaseIdToken", token, { secure: true });
+// }
 
-export function setAuthToken(token: string): string | undefined {
-  return Cookies.set("firebaseIdToken", token, { secure: true });
-}
-
-export function removeAuthToken(): void {
-  return Cookies.remove("firebaseIdToken");
-}
+// export function removeAuthToken(): void {
+// return Cookies.remove("firebaseIdToken");
+// }
 
 type AuthContextType = {
   currentUser: User | null;
@@ -41,14 +39,14 @@ export const AuthProvider = ({ children }: { children: any }) => {
         setCurrentUser(null);
         setIsAdmin(false);
         setIsPro(false);
-        removeAuthToken();
+        // removeAuthToken();
         return;
       }
 
       const token = await user.getIdToken();
       if (user) {
         setCurrentUser(user);
-        setAuthToken(token);
+        // setAuthToken(token);
 
         // Check if is admin
         // const tokenValues = await user.getIdTokenResult();
