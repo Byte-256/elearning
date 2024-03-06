@@ -1,43 +1,35 @@
+"use client";
 import CourseCard from "@/components/home/coursecard";
-import Sidebar from "./sidebar";
 import React, { useEffect, useState } from "react";
-import { db } from "@/lib/fb.config";
-import { DataSnapshot, onValue, ref } from "firebase/database";
 
 import Loading from "@/components/ui/Loading";
+import { getCourses } from "@/app/_utils/courses";
+
+interface CourseProps {
+  id: string;
+  courseName: string;
+  courseDescription: string;
+  createdAt: string;
+  courseCover: {
+    url: string;
+  };
+}
 
 export default function CoursePage() {
-  const [courses, setCourses] = useState([
-    {
-      title: "",
-      description: "",
-    },
-    {
-      title: "",
-      description: "",
-    },
-  ]);
+  const [courses, setCourses] = useState<CourseProps[]>();
   const [isLoading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    let courseRef = ref(db, "/Courses");
-    onValue(courseRef, (snapshot: DataSnapshot) => {
-      const coursesData = snapshot.val();
-      if (coursesData) {
-        const coursesArray = Object.keys(coursesData).map((key) => ({
-          id: key,
-          ...coursesData[key],
-        }));
-        setCourses(coursesArray);
+    const res = getCourses();
+    res
+      .then((courseLists) => {
+        setCourses(courseLists);
         setLoading(false);
-      } else {
-        setCourses([]);
-      }
-    });
-
-    return () => {
-      onValue(courseRef, (snap: DataSnapshot) => {});
-    };
+      })
+      .catch((e) => {
+        console.error(e);
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -46,12 +38,16 @@ export default function CoursePage() {
         {isLoading ? (
           <Loading />
         ) : (
-          courses.map((course, index) => (
+          courses?.map((course, index) => (
             <CourseCard
               key={index}
-              courseName={course.title ? course.title : ""}
-              courseCover="/course1.jpg"
-              description={course.description ? course.description : ""}
+              courseName={course.courseName || ""}
+              courseCover={
+                course.courseCover?.url
+                  ? course.courseCover.url
+                  : "/course1.jpg"
+              }
+              description={course.courseDescription || ""}
             />
           ))
         )}

@@ -3,6 +3,7 @@ interface CourseCardProps {
   courseName: string;
   description: string;
   courseCover: string;
+  w?: number;
 }
 
 import "@/app/globals.css";
@@ -24,6 +25,7 @@ const CourseCard = ({
   courseName,
   description,
   courseCover,
+  w,
 }: CourseCardProps) => {
   return (
     <Card className=" rounded-2xl bg-blue-200/30">
@@ -31,9 +33,10 @@ const CourseCard = ({
         <Image
           src={courseCover}
           alt={courseName}
-          className="w-full rounded-2xl"
-          width={100}
+          className="w-fit rounded-2xl"
+          width={w || 270}
           height={100}
+          quality={50}
         />
       </CardHeader>
       <CardContent>

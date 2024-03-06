@@ -5,6 +5,8 @@ import Navbar from "./_components/Navbar";
 import AddCourse from "./_components/Add_course";
 import { useAuth } from "@/lib/AuthProvider";
 import Link from "next/link";
+import CourseCard from "@/components/home/coursecard";
+import CoursePage from "../courses/_components/coursePage";
 
 const AdminPanel: React.FC = () => {
   const auth = useAuth();
@@ -23,6 +25,7 @@ const AdminPanel: React.FC = () => {
         <main className="container mx-auto px-4 py-6 sm:ml-64">
           <h1 className="text-2xl font-semibold mb-4">Dashboard</h1>
           {/* Your admin panel content goes here */}
+          <CoursePage />
           <AddCourse />
         </main>
       </div>

@@ -14,7 +14,7 @@ export default function sidebar({ className }: { className: string }) {
     <Navbar1
       className={cn(
         className,
-        "fixed inset-y-0 left-0 w-64 bg-blue-300/20 z-20 p-4 top-16"
+        "fixed inset-y-0 left-0 bg-blue-300/10 z-20 p-4 top-16 w-64"
       )}
     >
       <NavbarContent className="flex flex-col justify-center h-full">
