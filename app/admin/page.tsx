@@ -13,17 +13,11 @@ const AdminPanel: React.FC = () => {
   const auth = useAuth();
   const router = useRouter();
 
-  const [isLoading, setLoading] = useState(true);
-
   if (!auth) return <Loading />;
 
   const { isAdmin, currentUser } = auth;
 
-  useEffect(() => {
-    if (isAdmin != undefined) setLoading(false);
-  }, []);
-
-  if (!isLoading) {
+  if (auth.currentUser) {
     return (
       <>
         {isAdmin ? (
