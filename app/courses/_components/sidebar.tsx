@@ -5,9 +5,9 @@ import {
   Navbar as Navbar1,
   NavbarItem,
   NavbarContent,
-} from "@nextui-org/navbar";
+} from "@heroui/navbar";
 
-import { Link } from "@nextui-org/link";
+import { Link } from "@heroui/link";
 
 export default function sidebar({ className }: { className: string }) {
   return (

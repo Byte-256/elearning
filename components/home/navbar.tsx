@@ -8,7 +8,7 @@ import {
   NavbarBrand,
   NavbarItem,
   NavbarContent,
-} from "@nextui-org/navbar";
+} from "@heroui/navbar";
 import React from "react";
 
 interface navbarProps {
