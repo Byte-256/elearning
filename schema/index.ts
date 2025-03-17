@@ -9,10 +9,19 @@ export const LoginSchema = z.object({
   }),
 });
 
-export const AddCourseSchema = z.object({
-  title: z.string().min(1, { message: "Title is Required " }),
-  description: z.string().min(1, { message: "Description is Required " }),
-  isFeatured: z.boolean().default(false),
+export const courseSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string().optional(),
+  audioUrl: z.string().optional(),
+  transcriptUrl: z.string().optional(),
+  price: z.number(),
+  createdAt: z.any(), // Firestore stores timestamp as an object
+});
+
+export const NewCourseSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().optional(),
 });
 
 export const ResetSchema = z.object({

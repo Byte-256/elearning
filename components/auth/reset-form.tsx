@@ -16,15 +16,11 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { useState } from "react";
-import { auth } from "@/lib/fb.config";
-import {
-  AuthError,
-  fetchSignInMethodsForEmail,
-  sendPasswordResetEmail,
-} from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import {  sendPasswordResetEmail } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { FormError } from "../form-error";
-import { FormSuccess } from "../form-success";
+import { FormError } from "./form-error";
+import { FormSuccess } from "./form-success";
 
 interface ResetProps {
   hlabel: string;

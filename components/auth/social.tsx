@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { GoogleAuthProvider, signInWithPopup } from "@firebase/auth";
-import { auth } from "@/lib/fb.config";
+import { auth } from "@/lib/firebase";
 import { Dispatch, SetStateAction, useState } from "react";
 
 export const Social = ({ errorMsg }: Dispatch<SetStateAction<string | undefined>> | any) => {

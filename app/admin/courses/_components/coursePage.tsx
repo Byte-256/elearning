@@ -11,16 +11,19 @@ export default function CoursePage() {
 
   useEffect(() => {
     const res = getCourses();
+
     res
-      .then((courseLists) => {
-        setCourses(courseLists);
+      .then((courses: CourseProps[]) => {
+        setCourses(courses);
         setLoading(false);
       })
       .catch((e) => {
-        console.error(e);
+        console.error(e.message);
         setLoading(false);
       });
   }, []);
+
+  console.log(courses);
 
   return (
     <section className="flex flex-auto h-full w-screen flex-wrap justify-center items-center">
@@ -29,8 +32,8 @@ export default function CoursePage() {
           <Loading />
         ) : (
           courses?.map((course, index) => (
-            <a href={`/courses/${course.id}`} key={index}>
-              <CourseCard key={index}course={course} />
+            <a key={index} href={`/admin/courses/${course.id}`}>
+              <CourseCard key={index} course={course} />
             </a>
           ))
         )}

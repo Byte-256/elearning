@@ -6,18 +6,18 @@ import CoursePage from "./_components/coursePage";
 import Footer from "@/components/home/footer";
 import { Label } from "@/components/ui/label";
 
-interface CoursesProps {}
-
-const Courses = ({}: CoursesProps) => {
+const Courses = () => {
   return (
-    <main className=" min-h-screen">
-      <Navbar isCourse />
-      <Label className=" flex justify-center items-center mt-4 font-bold animate-pulse text-xl">
-        Top Courses
-      </Label>
-      <CoursePage />
+    <>
+      <main className=" min-h-screen">
+        <Navbar isCourse />
+        <Label className=" flex justify-center items-center mt-4 font-bold animate-pulse text-xl my-8">
+          Courses
+        </Label>
+        <CoursePage />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 };
 

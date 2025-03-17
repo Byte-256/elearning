@@ -9,7 +9,7 @@ const inter = Inter({
 
 export const metadata = {
   title: "Admin panel",
-  description: "Admin Panel for Admin User",
+  description: "Admin Panel for Admin",
 };
 
 export default function RootLayout({

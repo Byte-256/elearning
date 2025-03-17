@@ -1,38 +1,79 @@
-// pages/admin/index.tsx
 "use client";
-import Sidebar from "./_components/Sidebar";
-import Navbar from "./_components/Navbar";
-import AddCourse from "./_components/Add_course";
+
 import { useAuth } from "@/lib/AuthProvider";
 import Link from "next/link";
-import CourseCard from "@/components/home/coursecard";
-import CoursePage from "../courses/_components/coursePage";
+import { useRouter } from "next/navigation";
+import { Button } from "@heroui/button";
+import AddCourse from "./_components/addCourse";
+import Navbar from "@/components/home/navbar";
+import { useEffect, useState } from "react";
+import Loading from "@/components/ui/Loading";
 
 const AdminPanel: React.FC = () => {
   const auth = useAuth();
-  const user = auth?.currentUser;
+  const router = useRouter();
 
-  if (user?.email === "admin@isaac.in") {
+  const [isLoading, setLoading] = useState(true);
+
+  if (!auth) return <Loading />;
+
+  const { isAdmin, currentUser } = auth;
+
+  useEffect(() => {
+    if (isAdmin != undefined) setLoading(false);
+  }, []);
+
+  if (!isLoading) {
     return (
-      <div>
-        {/* Sidebar */}
-        <Sidebar />
-        {/* Page Content */}
+      <>
+        {isAdmin ? (
+          <>
+            <Navbar />
+            <div className="max-w-3xl mx-auto py-8">
+              <main className="bg-white shadow-md rounded-lg p-6">
+                <h1 className="text-2xl font-semibold text-center">
+                  {" "}
+                  Admin Panel
+                </h1>
+                <p className="text-center text-gray-700 mt-2">
+                  Welcome,{" "}
+                  <span className="font-bold">{currentUser?.email}</span>! 👋
+                </p>
 
-        {/* Navbar */}
-        <Navbar />
-        {/* Main Content */}
-        <main className="container mx-auto px-4 py-6 sm:ml-64">
-          <h1 className="text-2xl font-semibold mb-4">Dashboard</h1>
-          {/* Your admin panel content goes here */}
-          <CoursePage />
-          <AddCourse />
-        </main>
-      </div>
+                <Link href="/admin/courses">
+                  <Button
+                    variant="bordered"
+                    onPress={() => {
+                      router.push("/admin/courses");
+                    }}
+                  >
+                    Manage Courses
+                  </Button>
+                </Link>
+
+                <div className="mt-6">
+                  <AddCourse />
+                </div>
+              </main>
+            </div>
+          </>
+        ) : (
+          <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+            <h1 className="text-xl font-semibold">🚫 Access Denied</h1>
+            <p className="text-gray-600">
+              You are not authorized to access this page.
+            </p>
+            <Button variant="bordered">
+              <Link href="/" className="text-blue-500">
+                Go to Home
+              </Link>
+            </Button>
+          </div>
+        )}
+      </>
     );
-  } else {
-    <Link href="/">Click here</Link>;
   }
+  <Loading />;
 };
 
 export default AdminPanel;

@@ -1,11 +1,8 @@
 "use client";
-import { auth } from "@/lib/fb.config";
 import Link from "next/link";
-import { Button } from "../ui/button";
-import { sendEmailVerification, signOut } from "firebase/auth";
+import { Button } from "@heroui/react";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import Loading from "../ui/Loading";
 import {
   Drawer,
   DrawerClose,
@@ -24,25 +21,18 @@ export default function UserProfile() {
   const [showTooltip, setShowTooltip] = useState(false);
   const auth = useAuth();
   const user = auth?.currentUser;
-
-  function verifyUser() {
-    if (user) {
-      sendEmailVerification(user)
-        .then(() => {
-          alert("check your Inbox");
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-    }
-  }
   return (
     <div>
       {user ? (
         // If user is logged in, show profile image with tooltip
         <div className="relative cursor-pointer">
           <Drawer>
-            <DrawerTrigger>
+            <DrawerTrigger className="flex gap-2">
+              {auth.isAdmin && (
+                <Link href={"/admin"}>
+                  <Button>Admin</Button>
+                </Link>
+              )}
               <Avatar
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
@@ -57,13 +47,13 @@ export default function UserProfile() {
               <DrawerHeader>
                 <DrawerTitle>{user.displayName}</DrawerTitle>
                 <DrawerDescription>{user.email}</DrawerDescription>
-                <Button variant="destructive" onClick={() => auth.logout()}>
+                <Button variant="solid" onPress={() => auth.logout()}>
                   Logout
                 </Button>
               </DrawerHeader>
               <DrawerFooter>
                 <DrawerClose>
-                  <Button variant="outline">
+                  <Button variant="bordered">
                     {<PanelBottomClose width={20} height={20} />}
                   </Button>
                 </DrawerClose>

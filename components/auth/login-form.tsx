@@ -19,11 +19,11 @@ import Link from "next/link";
 import { PasswordInput } from "@/components/ui/passwordinput";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { useState } from "react";
-import { auth } from "@/lib/fb.config";
+import { auth } from "@/lib/firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { FormError } from "./form-error";
-import Loading from "./ui/Loading";
+import Loading from "@/components/ui/Loading";
 
 interface LoginProps {
   hlabel: string;

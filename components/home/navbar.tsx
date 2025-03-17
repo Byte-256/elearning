@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import UserProfile from "./userProfile";
 import {
-  Navbar as Navbar1,
+  Navbar as NavbarHeroUI,
   NavbarBrand,
   NavbarItem,
   NavbarContent,
@@ -25,7 +25,7 @@ export default function Navbar({
   isContact,
 }: navbarProps) {
   return (
-    <Navbar1 className=" bg-blue-500/20 shadow-md h-16">
+    <NavbarHeroUI className=" bg-blue-500/20 shadow-md h-16">
       <NavbarItem></NavbarItem>
       <NavbarBrand>
         <Image src="/logo.svg" alt="logo" width={45} height={45} />
@@ -55,6 +55,6 @@ export default function Navbar({
           <UserProfile />
         </NavbarItem>
       </NavbarContent>
-    </Navbar1>
+    </NavbarHeroUI>
   );
 }

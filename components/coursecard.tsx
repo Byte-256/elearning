@@ -1,10 +1,4 @@
 // components/CourseCard.js
-interface CourseCardProps {
-  courseName: string;
-  description: string;
-  courseCover: string;
-  w?: number;
-}
 
 import "@/app/globals.css";
 
@@ -16,33 +10,29 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-} from "../ui/card";
+} from "./ui/card";
 
 import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
+import { CourseProps } from "@/utils/course";
 
-const CourseCard = ({
-  courseName,
-  description,
-  courseCover,
-  w,
-}: CourseCardProps) => {
+const CourseCard = ({course, key}: {course: CourseProps, key: any}) => {
   return (
-    <Card className=" rounded-2xl bg-blue-200/30">
+    <Card className=" rounded-2xl bg-blue-200/30" key={key}>
       <CardHeader className="">
         <Image
-          src={courseCover}
-          alt={courseName}
+          src={"https://placehold.co/720x480/png"}
+          alt={course.title}
           className="w-fit rounded-2xl"
-          width={w || 270}
+          width={270}
           height={100}
           quality={50}
         />
       </CardHeader>
       <CardContent>
-        <CardTitle className="font-bold text-xl mb-2">{courseName}</CardTitle>
+        <CardTitle className="font-bold text-xl mb-2">{course.title}</CardTitle>
         <CardDescription className="text-gray-700 text-base flex justify-between">
-          {description}
+          {course.description}
           <Button className=" rounded-lg flex justify-between">
             More
             <svg

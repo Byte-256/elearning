@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "ap-south-1.graphassets.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "placehold.co",
+        port: "",
+      },
     ],
   },
 };

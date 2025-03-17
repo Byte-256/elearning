@@ -1,23 +1,12 @@
 "use client";
 import { GoogleAuthProvider, User, signInWithPopup } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "./fb.config";
-// export function getAuthToken(): string | undefined {
-// return Cookies.get("firebaseIdToken");
-// }
+import { auth } from "./firebase";
 
-// export function setAuthToken(token: string): string | undefined {
-// return Cookies.set("firebaseIdToken", token, { secure: true });
-// }
-
-// export function removeAuthToken(): void {
-// return Cookies.remove("firebaseIdToken");
-// }
 
 type AuthContextType = {
   currentUser: User | null;
   isAdmin: boolean;
-  isPro: boolean;
   loginGoogle: () => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -27,7 +16,6 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: any }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const [isPro, setIsPro] = useState<boolean>(false);
 
   // Triggers when App is started
   useEffect(() => {
@@ -38,7 +26,6 @@ export const AuthProvider = ({ children }: { children: any }) => {
       if (!user) {
         setCurrentUser(null);
         setIsAdmin(false);
-        setIsPro(false);
         // removeAuthToken();
         return;
       }
@@ -46,11 +33,9 @@ export const AuthProvider = ({ children }: { children: any }) => {
       const token = await user.getIdToken();
       if (user) {
         setCurrentUser(user);
-        // setAuthToken(token);
-
+        
         // Check if is admin
-        // const tokenValues = await user.getIdTokenResult();
-        // setIsAdmin(tokenValues.claims.role === "admin");
+        setIsAdmin(user.uid == "iCPxBn1bpqRcoG5L6qzR5KkzZaI3");
       }
     });
   }, []);
@@ -97,7 +82,6 @@ export const AuthProvider = ({ children }: { children: any }) => {
       value={{
         currentUser,
         isAdmin,
-        isPro,
         loginGoogle,
         logout,
       }}

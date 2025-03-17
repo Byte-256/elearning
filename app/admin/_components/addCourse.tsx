@@ -1,15 +1,9 @@
-// pages/admin/AddCourse.tsx
 "use client";
 
-import Link from "next/link";
-
-import React, { useContext, useState } from "react";
-import AddCourseForm from "./addCourseForm";
+import NewCourseForm from "./NewCourseForm";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -21,7 +15,7 @@ import { useAuth } from "@/lib/AuthProvider";
 
 const AddCourse: React.FC = () => {
   const user = useAuth()?.currentUser;
-  const isAdmin: boolean = user?.email == "admin@isaac.in";
+  const isAdmin = useAuth()?.isAdmin;
   return (
     <Dialog>
       <DialogTrigger>
@@ -29,11 +23,12 @@ const AddCourse: React.FC = () => {
           <BookPlus className="text-black-500 text-2xl" />
         </Button>
       </DialogTrigger>
+
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Course</DialogTitle>
+          {/* <DialogTitle>Create a new course</DialogTitle> */}
         </DialogHeader>
-        {isAdmin ? <AddCourseForm /> : <h4>You&#39re not a admin</h4>}
+        {isAdmin ? <NewCourseForm /> : <h4>You&#39re not a admin</h4>}
       </DialogContent>
     </Dialog>
   );

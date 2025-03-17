@@ -60,7 +60,7 @@ project-root/
 │   ├── login-form.tsx
 │   └── ui/
 ├── lib/
-│   ├── fb.config.js
+│   ├── firebase.js
 │   ├── utils.ts
 │   └── public/
 │       ├── account.png
