@@ -17,6 +17,11 @@ const nextConfig = {
         hostname: "placehold.co",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "heroui.com", // [TODO] remove this
+        port: "",
+      },
     ],
   },
 };

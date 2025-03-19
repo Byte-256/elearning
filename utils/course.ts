@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 export interface CourseProps {
@@ -9,12 +9,14 @@ export interface CourseProps {
   transcriptUrl?: string;
   price?: number;
   createdAt: Date;
+  isPublished? : boolean;
 }
 
 
 export const getCourses = async (): Promise<CourseProps[]> => {
   try {
-    const querySnapshot = await getDocs(collection(db, "courses"));
+    const q = query(collection(db, "courses"), orderBy("createdAt", "desc"))
+    const querySnapshot = await getDocs(q);
     
     const courses: CourseProps[] = querySnapshot.docs.map((doc) => {
       console.log(doc.id)
@@ -55,5 +57,18 @@ export const getCourse = async (courseId: string):Promise<CourseProps | undefine
   } catch(e:any) {
     console.error(e.message)
     return undefined
+  }
+}
+
+export async function updateCourse(courseId: string, updatedData: Partial<CourseProps>) {
+  if (!courseId) throw new Error("Course ID is required");
+
+  try {
+     const courseRef = doc(db, "courses", courseId);
+     await updateDoc(courseRef, updatedData);
+     return { success: true };
+  } catch (error) {
+    console.error("Error updating")
+    return { success: false };
   }
 }

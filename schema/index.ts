@@ -21,7 +21,6 @@ export const courseSchema = z.object({
 
 export const NewCourseSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  description: z.string().optional(),
 });
 
 export const ResetSchema = z.object({

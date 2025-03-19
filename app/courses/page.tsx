@@ -10,11 +10,11 @@ interface CoursesProps {}
 
 const Courses = ({}: CoursesProps) => {
   return (
-    <main className=" min-h-screen">
+    <main className=" min-h-screen bg-[#1a1a1a]">
       <Navbar isCourse />
-      <Label className=" flex justify-center items-center mt-4 font-bold animate-pulse text-xl">
+      <h1 className=" flex justify-center font-serif mt-4 font-bold text-4xl">
         Top Courses
-      </Label>
+      </h1>
       <CoursePage />
       <Footer />
     </main>

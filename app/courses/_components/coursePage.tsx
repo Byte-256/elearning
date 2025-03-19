@@ -30,7 +30,7 @@ export default function CoursePage() {
         ) : (
           courses?.map((course, index) => (
             <a href={`/courses/${course.id}`} key={index}>
-              <CourseCard key={index}course={course} />
+              <CourseCard key={index} course={course} />
             </a>
           ))
         )}

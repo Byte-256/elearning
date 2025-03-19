@@ -45,7 +45,7 @@ export default function Navbar({
           </Link>
         </NavbarItem>
         <NavbarItem isActive={isContact}>
-          <Link color="foreground" href="#">
+          <Link color="foreground" href="/contact">
             Contact us
           </Link>
         </NavbarItem>

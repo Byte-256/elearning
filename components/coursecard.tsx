@@ -7,49 +7,36 @@ import React from "react";
 import {
   Card,
   CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "./ui/card";
+  CardBody,
+  CardFooter,
+  Image,
+  Button,
+} from "@heroui/react";
 
-import Image from "next/image";
-import { Button } from "./ui/button";
 import { CourseProps } from "@/utils/course";
+import { ChevronRight } from "lucide-react";
 
-const CourseCard = ({course, key}: {course: CourseProps, key: any}) => {
+const CourseCard = ({ course }: { course: CourseProps }) => {
   return (
-    <Card className=" rounded-2xl bg-blue-200/30" key={key}>
-      <CardHeader className="">
+    <Card className="py-4 no-underline hover:cursor-pointer">
+      <CardBody className="overflow-visible py-2">
         <Image
-          src={"https://placehold.co/720x480/png"}
-          alt={course.title}
-          className="w-fit rounded-2xl"
+          alt="Card background"
+          className="object-cover rounded-xl"
+          src="https://placehold.co/270x170/png"
           width={270}
-          height={100}
-          quality={50}
         />
-      </CardHeader>
-      <CardContent>
-        <CardTitle className="font-bold text-xl mb-2">{course.title}</CardTitle>
-        <CardDescription className="text-gray-700 text-base flex justify-between">
-          {course.description}
-          <Button className=" rounded-lg flex justify-between">
-            More
-            <svg
-              className="w-4 h-4 ml-2"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M6.707 15.707a1 1 0 0 1-1.414-1.414L10.586 10l-5.293-5.293a1 1 0 1 1 1.414-1.414l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-.707.293z"
-                clipRule="evenodd"
-              />
-            </svg>
+      </CardBody>
+      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+        <small className="text-default-500">12 Chapters</small>
+        <small className="text-default-500">{course.price}</small>
+        <div className=" flex flex-row justify-between items-center w-full">
+          <h4 className="font-bold text-large">{course.title}</h4>
+          <Button isIconOnly>
+            <ChevronRight />
           </Button>
-        </CardDescription>
-      </CardContent>
+        </div>
+      </CardHeader>
     </Card>
   );
 };
