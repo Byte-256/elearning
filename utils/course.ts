@@ -5,10 +5,12 @@ export interface CourseProps {
   id: string;
   title: string;
   description?: string;
+  banner?: string;
   audioUrl?: string;
   transcriptUrl?: string;
   price?: number;
   createdAt: Date;
+  chapters?: any;
   isPublished? : boolean;
 }
 
@@ -27,6 +29,7 @@ export const getCourses = async (): Promise<CourseProps[]> => {
         audioUrl: doc.data().audioUrl || "",
         transcriptUrl: doc.data().transcriptUrl || "",
         price: doc.data().price,
+        banner: doc.data().banner || undefined,
         createdAt: doc.data().createdAt.toDate(),
       })
     });
@@ -50,6 +53,7 @@ export const getCourse = async (courseId: string):Promise<CourseProps | undefine
         audioUrl: query.data().audioUrl || "",
         transcriptUrl: query.data().transcriptUrl || "",
         price: query.data().price,
+        banner: query.data().banner || undefined,
         createdAt: query.data().createdAt.toDate(),
       })
     } else return undefined

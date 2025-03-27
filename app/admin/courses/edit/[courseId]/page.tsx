@@ -1,78 +1,140 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { redirect } from "next/navigation";
+
+import {
+  CircleDollarSign,
+  File,
+  LayoutDashboard,
+  ListChecks,
+} from "lucide-react";
+
+import { TitleForm } from "./_components/title-form";
+import { DescriptionForm } from "./_components/description-form";
+import { BannerForm as ImageForm } from "./_components/banner-form";
+import { PriceForm } from "./_components/price-form";
+import { Alert } from "@heroui/react";
+
+import { useAuth } from "@/lib/AuthProvider";
+
 import { CourseProps, getCourse } from "@/utils/course";
-import EditCourse from "./_components/editCourse";
-import { Alert, Card, Spinner, Button, Skeleton } from "@heroui/react";
-import { ChevronLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
 
-interface CoursePageProps {
-  params: {
-    courseId: string;
-  };
-}
+import React, { use, useEffect, useState } from "react";
+import Loading from "@/components/ui/Loading";
 
-const CoursePage = ({ params }: CoursePageProps) => {
+const CourseIdPage = ({ params }: { params: { courseId: string } }) => {
+  const auth = useAuth();
+  const userId = auth?.currentUser?.uid;
+  const isAdmin = auth?.isAdmin;
+  const [isLoading, setLoading] = useState(true);
   const [course, setCourse] = useState<CourseProps | null>(null);
-  const [isLoading, setLoading] = useState<boolean>(true);
 
-  const [error, setError] = useState<string | null>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const router = useRouter();
+  const courseId = params.courseId;
 
   useEffect(() => {
-    getCourse(params.courseId)
+    getCourse(courseId)
       .then((c) => {
         if (!c) {
-          setError("Course not found.");
+          console.error("Course not found.");
         }
         setCourse(c!);
       })
       .catch((e) => {
-        setError("Failed to fetch course data.");
+        console.error("Failed to fetch course data.");
         console.error(e.message);
       })
       .finally(() => setLoading(false));
-  }, [params.courseId]);
+  }, [courseId]);
+
+  const categories = null;
+
+  if (!course && !isLoading) {
+    return redirect("/");
+  }
+  console.log(course);
+
+  const requiredFields = [
+    course?.title,
+    course?.description,
+    course?.banner,
+    course?.price,
+    // course.chapters.some(
+    //   (chapter: { isPublished: any }) => chapter.isPublished
+    // ),
+  ];
+
+  const totalFields = 6; // requiredFields.length;
+  const completedFields = 1; //requiredFields.filter(Boolean).length;
+
+  const completionText = `(${completedFields} / ${totalFields})`;
+
+  const isComplete = false; // requiredFields.every(Boolean);
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-6 bg-[#1a1a1a]">
-      <Card className="w-full max-w-3xl p-6 bg-white shadow-md rounded-lg">
-        {isLoading ? (
-          <div className="flex flex-col items-center">
-            <Spinner size="lg" className="text-primary" />
-            <Skeleton className="w-full h-8 mt-4" />
-            <Skeleton className="w-2/3 h-6 mt-2" />
+    <>
+      {!true && (
+        // <Banner label="This course is unpublished. It will not be visible to the students." />
+        <Alert color="warning" variant="faded">
+          This course is unpublished. It will not be visible to the students.
+        </Alert>
+      )}
+      {isLoading && <Loading />}
+      {!isLoading && (
+        <div className="p-6">
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-y-2">
+              <h1 className="text-2xl font-medium">Course setup</h1>
+              <span className="text-sm text-slate-700">
+                Complete all fields {completionText}
+              </span>
+            </div>
           </div>
-        ) : error ? (
-          <Alert
-            variant="solid"
-            color="danger"
-            className="text-center text-lg font-semibold"
-          >
-            {error}
-          </Alert>
-        ) : (
-          <>
-            <div className="flex justify-between gap-4 items-center">
-              <Button isIconOnly onPress={() => router.push("/admin/courses")}>
-                <ChevronLeft />
-              </Button>
-              <h2 className="text-2xl font-bold">Customize your Course</h2>
-              <Button variant="solid" color="primary">
-                Publish
-              </Button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+            <div>
+              <div className="flex items-center gap-x-2">
+                <LayoutDashboard />
+                <h2 className="text-xl">Customize your course</h2>
+              </div>
+              <TitleForm initialData={course} courseId={courseId} />
+              <DescriptionForm initialData={course} courseId={courseId} />
+              <ImageForm initialData={course} courseId={courseId} />
+              {/* <CategoryForm
+              initialData={course}
+              courseId={course.id}
+              options={categories.map((category) => ({
+                label: category.name,
+                value: category.id,
+                }))}
+                /> */}
             </div>
-            <div className="mt-4">
-              <EditCourse details={course!} ref={formRef} />
+            <div className="space-y-6">
+              <div>
+                <div className="flex items-center gap-x-2">
+                  <ListChecks />
+                  <h2 className="text-xl">Course chapters</h2>
+                </div>
+                {/* <ChaptersForm initialData={course} courseId={course.id} /> */}
+              </div>
+              <div>
+                <div className="flex items-center gap-x-2">
+                  <CircleDollarSign />
+                  <h2 className="text-xl">Sell your course</h2>
+                </div>
+                <PriceForm initialData={course} courseId={courseId} />
+              </div>
+              <div>
+                <div className="flex items-center gap-x-2">
+                  <File />
+                  <h2 className="text-xl">Resources & Attachments</h2>
+                </div>
+                {/* <AttachmentForm initialData={course} courseId={course.id} /> */}
+              </div>
             </div>
-          </>
-        )}
-      </Card>
-    </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
-export default CoursePage;
+export default CourseIdPage;

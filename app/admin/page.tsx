@@ -22,7 +22,6 @@ const AdminPanel: React.FC = () => {
       <>
         {isAdmin ? (
           <>
-            <Navbar />
             <div className="max-w-3xl mx-auto py-8">
               <main className="bg-white shadow-md rounded-lg p-6">
                 <h1 className="text-2xl font-semibold text-center">

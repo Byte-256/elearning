@@ -1,10 +1,7 @@
 "use client";
 
 import "@/app/globals.css";
-import Navbar from "@/components/home/navbar";
 import CourseList from "./_components/coursesList";
-import Footer from "@/components/home/footer";
-import { Label } from "@/components/ui/label";
 
 const Courses = () => {
   return (

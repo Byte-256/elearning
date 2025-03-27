@@ -1,100 +1,76 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { useState, forwardRef } from "react";
-import {
-  Input,
-  Textarea,
-  Button,
-  Alert,
-  Form,
-  Modal,
-  Tabs,
-  Tab,
-  Card,
-} from "@heroui/react";
-import { CourseProps, updateCourse } from "@/utils/course";
+import { useEffect, useState } from "react";
+import { Alert, Tabs, Tab } from "@heroui/react";
+
+import { CourseProps } from "@/utils/course";
+
 import { TitleForm } from "./title-form";
 import { DescriptionForm } from "./description-form";
 import { PriceForm } from "./price-form";
 import { AudioForm } from "./audio-form";
 import { TranscriptForm } from "./transcript-form";
+import { BannerForm } from "./banner-form";
 
 interface EditCourseProps {
   details: CourseProps;
 }
 
-const EditCourse = forwardRef<HTMLFormElement, EditCourseProps>(
-  ({ details }, ref) => {
-    const {
-      register,
-      handleSubmit,
-      formState: { errors, isValid },
-      watch,
-    } = useForm<CourseProps>({
-      defaultValues: details,
-      mode: "onChange",
-    });
+const EditCourse = ({ details }: EditCourseProps) => {
+  const [isVertical, setIsVertical] = useState(true);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+  useEffect(() => {
+    if (screen.width <= 768) {
+      setIsVertical(false);
+    }
+  }, []);
 
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState<{
-      type: "success" | "error";
-      text: string;
-    } | null>(null);
-    const [confirmOpen, setConfirmOpen] = useState(false);
+  return (
+    <div className="w-screen lg:max-w-3xl mx-auto lg:p-6">
+      {message && (
+        <Alert
+          variant="faded"
+          className={`mb-4 ${
+            message.type === "success" ? "bg-green-600/20" : "bg-red-600/20"
+          }`}
+        >
+          {message.text}
+        </Alert>
+      )}
 
-    const onSubmit = async (data: CourseProps) => {
-      setLoading(true);
-      try {
-        await updateCourse(data.id, data);
-        setMessage({ type: "success", text: "Course updated successfully!" });
-      } catch (error) {
-        console.error("Error updating course:", error);
-        setMessage({ type: "error", text: "Error updating course." });
-      }
-      setLoading(false);
-      setConfirmOpen(false);
-    };
+      {/* Tabs for better organization */}
 
-    return (
-      <div className="max-w-3xl mx-auto p-6">
-        {message && (
-          <Alert
-            variant="faded"
-            className={`mb-4 ${
-              message.type === "success" ? "bg-green-600/20" : "bg-red-600/20"
-            }`}
-          >
-            {message.text}
-          </Alert>
-        )}
+      <Tabs isVertical={isVertical} size={isVertical ? "md" : "sm"}>
+        <Tab title="Title">
+          <TitleForm initialData={details} courseId={details.id} />
+        </Tab>
 
-        {/* Tabs for better organization */}
-        <Tabs>
-          <Tab title="Title">
-            <TitleForm initialData={details} courseId={details.id} />
-          </Tab>
+        <Tab title="Description">
+          <DescriptionForm initialData={details} courseId={details.id} />
+        </Tab>
 
-          <Tab title="Description">
-            <DescriptionForm initialData={details} courseId={details.id} />
-          </Tab>
+        <Tab title="Pricing">
+          <PriceForm initialData={details} courseId={details.id} />
+        </Tab>
+        {/* 
+        <Tab title="Banner">
+          <BannerForm initialData={details} courseId={details.id} />
+        </Tab> */}
 
-          <Tab title="Pricing">
-            <PriceForm initialData={details} courseId={details.id} />
-          </Tab>
+        <Tab title="Audio">
+          <AudioForm initialData={details} courseId={details.id} />
+        </Tab>
 
-          <Tab title="Audio">
-            <AudioForm initialData={details} courseId={details.id} />
-          </Tab>
-
-          <Tab title="Transcript">
-            <TranscriptForm initialData={details} courseId={details.id} />
-          </Tab>
-        </Tabs>
-      </div>
-    );
-  }
-);
+        {/* <Tab title="Transcript">
+          <TranscriptForm initialData={details} courseId={details.id} /> */}
+        {/* </Tab> */}
+      </Tabs>
+    </div>
+  );
+};
 
 EditCourse.displayName = "EditCourse";
 

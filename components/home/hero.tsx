@@ -1,25 +1,50 @@
-import { Button } from "../ui/button";
+"use client";
+import { useAuth } from "@/lib/AuthProvider";
+import { Button } from "@heroui/react";
 import Link from "next/link";
 
 export default function Hero() {
+  const isAdmin = useAuth()?.isAdmin;
   return (
-    <div className="bg-blue-500/20">
-      <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-darkBlueGrey sm:text-4xl">
-            Welcome to E-Learning Platform
-          </h1>
-          <p className="mt-4 text-lg text-darkBlueGrey">
-            Start your learning journey today!
-          </p>
-          <div className="mt-6">
-            <Link href="/register">
-              <Button className="px-6 py-3 bg-primary text-neutralWhite rounded-lg font-semibold text-sm uppercase tracking-wide hover:bg-accent focus:outline-none focus:bg-accent">
-                Get Started
-              </Button>
-            </Link>
-          </div>
-        </div>
+    <div className="relative w-full h-screen bg-black text-white flex items-center justify-center">
+      {/* Background Image */}
+      <div className="absolute inset-0 bg-[url('/bg.png')] bg-cover bg-center opacity-50"></div>
+
+      {/* Top Left - Login & Signup Buttons */}
+      <div className="absolute top-10 left-10 flex space-x-4">
+        {["LOG IN", "SIGN UP"].map((text, index) => (
+          <Link key={index} href={text === "LOG IN" ? "/login" : "/signup"}>
+            <button className="bg-focus hover:bg-teal-600 text-white font-bold py-2 px-6 rounded">
+              {text}
+            </button>
+          </Link>
+        ))}
+        {isAdmin && (
+          <Link href={"/admin"}>
+            <Button>Admin</Button>
+          </Link>
+        )}
+      </div>
+
+      {/* Top Right - Title and Welcome */}
+      <div className="absolute right-48 top-24 text-right">
+        <h3 className="text-6xl italic font-thin font-serif">
+          Someone{"'"}s E Learning Platform
+        </h3>
+        <h1 className="text-9xl font-bold mt-2">Welcome</h1>
+      </div>
+
+      {/* Bottom Right - Description & About Us */}
+      <div className="absolute bottom-24 right-48 text-right">
+        <p className="text-xl">Move your Day-to-Day Words with help of us</p>
+        <p className="text-sm opacity-80 mb-4">
+          A Growing Student Community of generosity
+        </p>
+        <Link href="/about">
+          <button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-6 rounded">
+            ABOUT US →
+          </button>
+        </Link>
       </div>
     </div>
   );

@@ -28,11 +28,7 @@ export default function UserProfile() {
         <div className="relative cursor-pointer">
           <Drawer>
             <DrawerTrigger className="flex gap-2">
-              {auth.isAdmin && (
-                <Link href={"/admin"}>
-                  <Button>Admin</Button>
-                </Link>
-              )}
+              {auth.isAdmin && <Link href={"/admin"}>Admin</Link>}
               <Avatar
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}

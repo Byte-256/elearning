@@ -23,8 +23,8 @@ const CourseCard = ({ course }: { course: CourseProps }) => {
         <Image
           alt="Card background"
           className="object-cover rounded-xl"
-          src="https://placehold.co/270x170/png"
-          width={270}
+          src={course.banner || "https://placehold.co/270x170/png"}
+          width={369}
         />
       </CardBody>
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">

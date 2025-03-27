@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import { Button } from "@heroui/react";
 // Import your globals here
 
 import { Inter } from "next/font/google";
@@ -17,5 +18,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <div className="absolute top-10 left-10 flex ">
+        <Button>Admin</Button>
+        <Button>Home</Button>
+      </div>
+      {children}
+    </>
+  );
 }

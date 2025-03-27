@@ -49,15 +49,15 @@ export const AudioForm = ({
         }}
       >
         {message && (
-        <Alert
-          variant="faded"
-          className={`${
-            message.type === "success" ? "bg-green-400/40" : "bg-red-400/40"
-          } mb-2 `}
-        >
-          {message.text}
-        </Alert>
-      )}
+          <Alert
+            variant="faded"
+            className={`${
+              message.type === "success" ? "bg-green-400/40" : "bg-red-400/40"
+            } mb-2 `}
+          >
+            {message.text}
+          </Alert>
+        )}
         <div className="flex flex-row gap-10 mt-8">
           <Input type="file" accept="audio/*" name="audio" />
           <Input
@@ -68,7 +68,7 @@ export const AudioForm = ({
           />
         </div>
       </form>
-      
+
       <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
         <Input
           label="Course Audio"

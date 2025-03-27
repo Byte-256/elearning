@@ -19,7 +19,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "heroui.com", // [TODO] remove this
+        hostname: "i20gm8l3ln.ufs.sh", // [TODO] remove this
         port: "",
       },
     ],
